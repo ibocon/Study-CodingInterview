@@ -25,7 +25,7 @@ namespace Tests
             threeStacksInStack.Push(0, 12);
 
             var popped = threeStacksInStack.Pop(0);
-            Assert.AreEqual(popped, 12);
+            Assert.AreEqual(12 , popped);
 
             threeStacksInStack.Push(2, 31);
 
@@ -38,12 +38,12 @@ namespace Tests
             threeStacksInStack.Push(2, 34);
 
             popped = threeStacksInStack.Pop(1);
-            Assert.AreEqual(popped, 22);
+            Assert.AreEqual(22, popped);
 
             threeStacksInStack.Push(2, 35);
 
             Assert.IsFalse(threeStacksInStack.IsEmpty(0));
-            Assert.AreEqual(threeStacksInStack.Peek(0), 13);
+            Assert.AreEqual(13, threeStacksInStack.Peek(0));
         }
 
         [TestMethod]
@@ -79,13 +79,13 @@ namespace Tests
             setOfstacks.Push(5);
             setOfstacks.Push(6);
 
-            Assert.AreEqual(setOfstacks.Pop(), 6);
-            Assert.AreEqual(setOfstacks.Pop(), 5);
-            Assert.AreEqual(setOfstacks.Pop(), 4);
+            Assert.AreEqual(6, setOfstacks.Pop());
+            Assert.AreEqual(5, setOfstacks.Pop());
+            Assert.AreEqual(4, setOfstacks.Pop());
 
-            Assert.AreEqual(setOfstacks.Pop(), 3);
-            Assert.AreEqual(setOfstacks.Pop(), 2);
-            Assert.AreEqual(setOfstacks.Pop(), 1);
+            Assert.AreEqual(3, setOfstacks.Pop());
+            Assert.AreEqual(2, setOfstacks.Pop());
+            Assert.AreEqual(1, setOfstacks.Pop());
 
             //stack 0
             setOfstacks.Push(1);
@@ -97,9 +97,9 @@ namespace Tests
             setOfstacks.Push(5);
             setOfstacks.Push(6);
 
-            Assert.AreEqual(setOfstacks.PopAt(0), 3);
-            Assert.AreEqual(setOfstacks.PopAt(0), 4);
-            Assert.AreEqual(setOfstacks.PopAt(0), 5);
+            Assert.AreEqual(3, setOfstacks.PopAt(0));
+            Assert.AreEqual(4, setOfstacks.PopAt(0));
+            Assert.AreEqual(5, setOfstacks.PopAt(0));
 
         }
 
@@ -123,12 +123,36 @@ namespace Tests
             Assert.IsTrue(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Origin].IsEmpty());
             Assert.IsTrue(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Buffer].IsEmpty());
 
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size, 1);
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size, 2);
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size, 3);
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size, 4);
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size, 5);
-            Assert.AreEqual(hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop(), null);
+            Assert.AreEqual(1, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size);
+            Assert.AreEqual(2, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size);
+            Assert.AreEqual(3, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size);
+            Assert.AreEqual(4, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size);
+            Assert.AreEqual(5, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop().Size);
+            Assert.AreEqual(null, hanoiTower.Towers[StackQueue.HanoiTower.TowerLabel.Destination].Pop());
+        }
+
+        [TestMethod]
+        public void Q3_5()
+        {
+            var myQueue = new StackQueue.MyQueue<int>();
+
+            myQueue.Enqueue(1);
+            myQueue.Enqueue(2);
+
+            Assert.AreEqual(1, myQueue.Peek());
+            Assert.AreEqual(1, myQueue.Dequeue());
+
+            myQueue.Enqueue(3);
+
+            Assert.AreEqual(2, myQueue.Dequeue());
+            Assert.AreEqual(3, myQueue.Peek());
+
+            myQueue.Enqueue(4);
+
+            Assert.AreEqual(3, myQueue.Peek());
+
+            Assert.AreEqual(3, myQueue.Dequeue());
+            Assert.AreEqual(4, myQueue.Dequeue());
         }
     }
 }

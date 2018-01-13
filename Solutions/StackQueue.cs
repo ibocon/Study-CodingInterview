@@ -670,6 +670,65 @@ namespace Solutions
             }
         }
 
-#endregion
+        #endregion
+
+        #region Question 3.5
+        /*
+         * 두 개의 스택을 사용하여 큐를 구현하는 MyQueue 클래스를 작성해보라.
+         */
+        
+        /// <summary>
+        /// 두 개의 스택으로 구현한 큐 자료구조
+        /// </summary>
+        /// <typeparam name="T">저장할 데이터 타입</typeparam>
+        public class MyQueue<T>
+        {
+            private readonly Stack<T> stackEnqueue;
+            private readonly Stack<T> stackDequeue;
+
+            public MyQueue()
+            {
+                stackEnqueue = new Stack<T>();
+                stackDequeue = new Stack<T>();
+            }
+
+            public int Size()
+            {
+                return stackEnqueue.Count + stackDequeue.Count;
+            }
+
+            public void Enqueue(T value)
+            {
+                stackEnqueue.Push(value);
+            }
+
+            private void SwitchStack()
+            {
+                // 꺼낼 스택이 비어있을 때만 스택 데이터를 옮긴다.
+                if (stackDequeue.Count == 0)
+                {
+                    while (stackEnqueue.Count != 0)
+                    {
+                        stackDequeue.Push(stackEnqueue.Pop());
+                    }
+                }
+            }
+
+            public T Peek()
+            {
+                SwitchStack();
+
+                return stackDequeue.Peek();
+            }
+
+            public T Dequeue()
+            {
+                SwitchStack();
+
+                return stackDequeue.Pop();
+            }
+        }
+
+        #endregion
     }
 }

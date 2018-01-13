@@ -730,5 +730,160 @@ namespace Solutions
         }
 
         #endregion
+
+        #region Question 3.6
+        /*
+         * 큰 값이 위로 오도록 스택을 오름차순 정렬하는 프로그램을 작성하라.
+         * 여벌 스택은 하나까지만 사용할 수 있고, 스택에 보관된 요소를 배열 등의 다른 자료구조로는 복사할 수 없다.
+         * 스택은 push, pop, peek, isEmpty의 네 가지 연산을 제공한다.
+         */
+        
+        public static Stack<int> Q6_Sort(Stack<int> stack)
+        {
+            var sortedStack = new Stack<int>();
+            while(stack.Count != 0)
+            {
+                var t = stack.Pop();
+
+                while (sortedStack.Count != 0 && sortedStack.Peek() > t)
+                {
+                    stack.Push(sortedStack.Pop());
+                }
+                sortedStack.Push(t);
+            }
+
+            return sortedStack;
+        }
+
+        #endregion
+
+        #region Question 3.7
+        /*
+         * 먼저 들어온 동물이 먼저 나가는 동물쉼터가 있다고 하자. 쉼터는 개와 고양이만 수용할 수 있다.
+         * 사람들은 쉼터의 동물들 가운데 들어온 지 가장 오래된 동물부터 입양할 수 있는데, 개와 고양이 중,
+         * 어떤 동물을 데려갈지 선택할 수도 있다. 특정한 동물을 지정해 데려가는 것은 금지되어 있다.
+         * (enqueue, dequeueAny, dequeueDog, dequeueCat의 연산을 제공해야 한다.)
+         */
+        public class AnimalShelter
+        {
+            public abstract class Animal : IComparable<Animal>
+            {
+                public DateTime Time { get; }
+                public string Name { get; }
+
+                protected Animal(string name, DateTime time)
+                {
+                    this.Name = name;
+                    this.Time = time;
+                }
+
+                public int CompareTo(Animal other)
+                {
+                    return this.Time.CompareTo(other.Time);
+                }
+
+                #region Method Overloading
+                public static bool operator >(Animal b1, Animal b2)
+                {
+                    return (b1.CompareTo(b2) > 0);
+                }
+
+                public static bool operator <(Animal b1, Animal b2)
+                {
+                    return (b1.CompareTo(b2) < 0);
+                }
+                #endregion
+            }
+
+            public class Cat : Animal
+            {
+                public Cat(string name, DateTime time) : base(name, time)
+                {
+
+                }
+            }
+            public class Dog : Animal
+            {
+                public Dog(string name, DateTime time) : base(name, time)
+                {
+
+                }
+
+                public override string ToString()
+                {
+                    return "Dog:" + base.ToString();
+                }
+            }
+
+            private Queue<Dog> dogs;
+            private Queue<Cat> cats;
+
+            public AnimalShelter()
+            {
+                this.dogs = new Queue<Dog>();
+                this.cats = new Queue<Cat>();
+            }
+
+            public void Enqueue(Animal animal)
+            {
+                switch (animal)
+                {
+                    case Dog d:
+                        this.dogs.Enqueue(animal as Dog);
+                        break;
+                    case Cat c:
+                        this.cats.Enqueue(animal as Cat);
+                        break;
+                }
+            }
+
+            public Animal DequeueAny()
+            {
+                if(dogs.Count == 0)
+                {
+                    return this.DequeueCat();
+                }
+
+                if(cats.Count == 0)
+                {
+                    return this.DequeueDog();
+                }
+
+                if(dogs.Peek() < cats.Peek())
+                {
+                    return this.DequeueDog();
+                }
+                else
+                {
+                    return this.DequeueCat();
+                }
+            }
+
+            public Animal DequeueCat()
+            {
+                try
+                {
+                    return this.cats.Dequeue();
+                }
+                catch (InvalidOperationException)
+                {
+                    return null;
+                }
+            }
+
+            public Animal DequeueDog()
+            {
+                try
+                {
+                    return this.dogs.Dequeue();
+                }
+                catch (InvalidOperationException)
+                {
+                    return null;
+                }
+                
+            }
+        }
+        #endregion
     }
 }

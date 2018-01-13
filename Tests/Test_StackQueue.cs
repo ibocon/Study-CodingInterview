@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solutions;
 using System;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -153,6 +154,43 @@ namespace Tests
 
             Assert.AreEqual(3, myQueue.Dequeue());
             Assert.AreEqual(4, myQueue.Dequeue());
+        }
+
+        [TestMethod]
+        public void Q3_6()
+        {
+            var stack = new Stack<int>();
+            stack.Push(3);
+            stack.Push(4);
+            stack.Push(2);
+            stack.Push(5);
+            stack.Push(1);
+
+            var sortedStack = StackQueue.Q6_Sort(stack);
+
+            Assert.AreEqual(5, sortedStack.Pop());
+            Assert.AreEqual(4, sortedStack.Pop());
+            Assert.AreEqual(3, sortedStack.Pop());
+            Assert.AreEqual(2, sortedStack.Pop());
+            Assert.AreEqual(1, sortedStack.Pop());
+        }
+
+        [TestMethod]
+        public void Q3_7()
+        {
+            var shelter = new StackQueue.AnimalShelter();
+
+            shelter.Enqueue(new StackQueue.AnimalShelter.Cat("A", new DateTime(100)));
+            Assert.IsNull(shelter.DequeueDog());
+            Assert.AreEqual("A", shelter.DequeueCat().Name);
+
+            shelter.Enqueue(new StackQueue.AnimalShelter.Cat("B", new DateTime(200)));
+            Assert.AreEqual("B", shelter.DequeueAny().Name);
+
+            shelter.Enqueue(new StackQueue.AnimalShelter.Dog("C", new DateTime(300)));
+            shelter.Enqueue(new StackQueue.AnimalShelter.Cat("D", new DateTime(400)));
+            Assert.AreEqual("C", shelter.DequeueAny().Name);
+
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace Solutions
 {
 
-
     public class StackQueue
     {
         #region Question 3.1 (미해결)
@@ -802,16 +801,12 @@ namespace Solutions
 
                 }
             }
+
             public class Dog : Animal
             {
                 public Dog(string name, DateTime time) : base(name, time)
                 {
 
-                }
-
-                public override string ToString()
-                {
-                    return "Dog:" + base.ToString();
                 }
             }
 

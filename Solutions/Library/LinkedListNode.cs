@@ -5,25 +5,16 @@ using System.Text;
 
 namespace Solutions.Library
 {
-    [DebuggerDisplay("Data = {Data}")]
-    public class LinkedListNode<T>
+    public class LinkedListNode<T> : Node<T>
     {
-        private T value;
-
-        public LinkedListNode<T> Next { get; set; }
+        public LinkedListNode<T> Next{ get; set; }
         public LinkedListNode<T> Prev { get; set; }
-        public T Data { get; set; }
 
-        public LinkedListNode(T data, LinkedListNode<T> next, LinkedListNode<T> previous)
+        public LinkedListNode(T data) : base(data) { }
+        public LinkedListNode(T data, LinkedListNode<T> next, LinkedListNode<T> previous) : base(data)
         {
-            Data = data;
             SetNext(next);
             SetPrevious(previous);
-        }
-
-        public LinkedListNode(T value)
-        {
-            this.value = value;
         }
 
         public void SetNext(LinkedListNode<T> next)
@@ -44,4 +35,5 @@ namespace Solutions.Library
             }
         }
     }
+
 }

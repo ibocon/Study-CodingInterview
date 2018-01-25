@@ -6,8 +6,10 @@ namespace Solutions
 
     public class StackQueue
     {
-        #region Question 3.1 (미해결)
-        // 하나의 배열을 사용해 세 개의 스택을 구현하는 방법을 설명하라.
+        #region Question 3.1
+        /* 
+         * 하나의 배열을 사용해 세 개의 스택을 구현하는 방법을 설명하라.
+         */
 
         #region Helper Class
         /// <summary>
@@ -278,7 +280,7 @@ namespace Solutions
         #endregion
 
         #region Question 3.2
-        /*
+        /* 
          * push와 pop의 두가지 연산뿐 아니라, 최솟값을 갖는 원소를 반환하는 min 연산을 갖춘 스택은 어떻게 구현할 수 있겠는가?
         */
         public class StackWithMin

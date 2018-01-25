@@ -5,7 +5,7 @@ using Solutions.Library;
 
 namespace Solutions
 {
-    public class TreeGraph<T>
+    public class TreeGraph<T> where T : IComparable
     {
         #region Question 4.1
         // 주어진 이진 트리가 균형 이진 트리인지 판별하는 함수를 구현하라.
@@ -53,8 +53,11 @@ namespace Solutions
 
         #endregion
 
-        #region Quetion 4.2
-        // 주어진 유향 그래프(directed graph)에서 특정한 두 노드 간에 경로(route)가 존재하는지를 판별하는 알고리즘을 구현하라.
+        #region Question 4.2
+        /*
+         * 주어진 유향 그래프(directed graph)에서 특정한 두 노드 간에 경로(route)가 존재하는지를 판별하는 알고리즘을 구현하라.
+         */
+
         public static bool Q2_Search(Graph<T> graph, GraphNode<T> start, GraphNode<T> end)
         {
             var nodeList = new LinkedList<GraphNode<T>>();
@@ -135,6 +138,7 @@ namespace Solutions
             return node;
         }
         #endregion
+
         #region Question 4.4
         /* 주어진 이진 트리에서 깊이별로 연결 리스트를 만들어 내는 알고리즘을 작성하라.
          * (트리의 깊이가 D라면, 알고리즘 수행 결과로 D개의 연결 리스트가 만들어져야 한다.)
@@ -174,6 +178,39 @@ namespace Solutions
                 levels.Add(newLevel);
                 CreateALevelLinkedList(ref levels, newLevel);
             }
+        }
+        #endregion
+
+        #region Question 4.5
+        /*
+         * 어떤 이진 트리가 이진 탐색 트리인지 판별하는 함수를 구현하라.
+         */
+
+        /// <summary>
+        /// <paramref name="root"/>가 이진 탐색 트리가 맞는지 판별한다.
+        /// </summary>
+        /// <param name="root">검사할 이진 트리</param>
+        /// <returns><paramref name="root"/>가 이진 트리가 맞다면 <code>true</code>를 반환한다.</returns>
+        public static bool CheckBST(BinaryTreeNode<IComparable> root)
+        {
+            return CheckBST(root, null, null);
+        }
+
+        private static bool CheckBST(BinaryTreeNode<IComparable> node, IComparable min, IComparable max)
+        {
+            if(node == null) { return true; }
+
+            if( (min != null && node.Data.CompareTo(min) <= 0) || (max != null &&  node.Data.CompareTo(max) >= 0))
+            {
+                return false;
+            }
+
+            if(!CheckBST(node.Left, min, node.Data) || !CheckBST(node.Right, node.Data, max))
+            {
+                return false;
+            }
+
+            return true;
         }
         #endregion
     }

@@ -6,8 +6,8 @@ namespace Solutions
 {
     public class LinkedList
     {
+        #region Question 2.1
         /// <summary>
-        /// Question 2.1
         /// 정렬되지 않은 연결 리스트에서 중복 문자를 제거하라.
         /// (임시 버퍼가 허용되지 않는 상황)
         /// </summary>
@@ -44,9 +44,10 @@ namespace Solutions
             }
 
         }
+        #endregion
 
+        #region Question 2.2
         /// <summary>
-        /// Question 2.2
         /// 뒤에서 <paramref name="n">n</paramref>번째 원소를 찾아라.
         /// </summary>
         /// <typeparam name="T"><code>LinkedListNode</code>의 Generic Type</typeparam>
@@ -71,9 +72,10 @@ namespace Solutions
 
             return cursor;
         }
+        #endregion
 
+        #region Question 2.3
         /// <summary>
-        /// Question 2.3
         /// 중간에 있는 노드 하나를 삭제하라.
         /// (삭제할 노드에 대한 접근만 가능)
         /// </summary>
@@ -99,9 +101,10 @@ namespace Solutions
 
             return true;
         }
+        #endregion
 
+        #region Question 2.4
         /// <summary>
-        /// Question 2.4
         /// <paramref name="pivot"/>값을 갖는 노드를 기준으로 연결 리스트를 나눠라.
         /// (<paramref name="pivot"/>보다 작은 값을 갖는 노드가 같거나 더 큰 값을 갖는 노드들보다 앞에 오도록)
         /// </summary>
@@ -151,9 +154,10 @@ namespace Solutions
             }
             return newHead;
         }
+        #endregion
 
+        #region Question 2.5
         /// <summary>
-        /// Question 2.5
         /// 연결 리스트로 표현된 두 개의 수가 있다고 하자. 리스트의 각 노드는 해당 수의 각 자릿수를 표현한다.
         /// (이 때 자릿수들은 역순으로 배열되는데, 1의 자릿수가 리스트의 맨 앞에 오도록 배열된다는 뜻이다.)
         /// 이 두 수를 더하여 그 합을 연결 리스트로 반환하는 함수를 작성하라.
@@ -176,9 +180,10 @@ namespace Solutions
 
             return result;
         }
+        #endregion
 
+        #region Question 2.6
         /// <summary>
-        /// Question 2.6 (미해결)
         /// 순환 연결 리스트가 주어졌을 때, 순환되는 부분의 첫 노드를 반환하라.
         /// </summary>
         /// <typeparam name="T"><code>LinkedListNode</code>의 Generic Type</typeparam>
@@ -222,9 +227,10 @@ namespace Solutions
             // 둘 다 루프 시작점을 가리키게 된다.
             return fast;
         }
+        #endregion
 
+        #region Question 2.7
         /// <summary>
-        /// Question 2.7
         /// 주어진 연결 리스트가 회문인지 검사하는 함수를 작성하라.
         /// </summary>
         /// <param name="head">리스트의 시작 노드</param>
@@ -269,6 +275,6 @@ namespace Solutions
 
             return true;
         }
-
+        #endregion
     }
 }

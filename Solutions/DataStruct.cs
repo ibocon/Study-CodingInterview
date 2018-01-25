@@ -3,8 +3,8 @@ namespace Solutions
 {
     public class DataStruct
     {
+        #region Question 1.1
         /// <summary>
-        /// Question 1.1
         /// 문자열에 포함된 문자들이 전부 유일한지를 검사하라.
         /// (다른 자료구조를 사용할 수 없는 상황)
         /// </summary>
@@ -21,9 +21,10 @@ namespace Solutions
             }
             return true;
         }
+        #endregion
 
+        #region Question 1.2
         /// <summary>
-        /// Question 1.2
         /// null 문자로 끝나는 문자열을 뒤집어라.
         /// </summary>
         /// <param name="input">입력 문자열</param>
@@ -39,9 +40,10 @@ namespace Solutions
 
             return sb.ToString();
         }
+        #endregion
 
+        #region Question 1.3
         /// <summary>
-        /// Question 1.3
         /// 문자열 두 개를 입력으로 받아 그중 하나가 다른 하나의 순열인지 판별하라.
         /// </summary>
         /// <param name="original">판별기준 문자열</param>
@@ -71,9 +73,10 @@ namespace Solutions
                 return false;
             }
         }
+        #endregion
 
+        #region Question 1.4
         /// <summary>
-        /// Question 1.4
         /// 주어진 문자열 내의 모든 공백을 '%20'으로 변경하라.
         /// </summary>
         /// <param name="input">입력 문자열</param>
@@ -96,9 +99,10 @@ namespace Solutions
 
             return sb.ToString();
         }
+        #endregion
 
+        #region Question 1.5
         /// <summary>
-        /// Question 1.5
         /// 같은 문자가 연속으로 반복될 경우, 그 횟수를 사용해 문자열을 압축하라.
         /// 만약, 압축할 수 없다면 원래 문자열을 반환하라.
         /// </summary>
@@ -141,9 +145,10 @@ namespace Solutions
                 return input;
             }
         }
+        #endregion
 
+        #region Question 1.6
         /// <summary>
-        /// Question 1.6
         /// 이미지를 표현하는 NxN 행렬이 있다. 이미지의 각 픽셀은 4바이트로 표현된다.
         /// 이때 이미지를 90도 회전시켜라.
         /// (추가 행렬 사용없이 해결)
@@ -183,9 +188,10 @@ namespace Solutions
                 }
             }
         }
+        #endregion
 
+        #region Question 1.7
         /// <summary>
-        /// Question 1.7
         /// M x N 행렬을 순회하면서 0인 원소를 발견하면,
         /// 해당 원소가 속한 행과 열의 모든 원소를 0으로 설정하라.
         /// </summary>
@@ -232,9 +238,10 @@ namespace Solutions
                 }
             }
         }
+        #endregion
 
+        #region Question 1.8
         /// <summary>
-        /// Question 1.8 (미해결)
         /// 한 단어가 다른 단어에 포함된 문자열인지 판별하는 <code>isSubstring</code> 함수가 있다고 하자.
         /// <paramref name="s1"/>과 <paramref name="s2"/>의 두 문자열이 주어졌을 때, 
         /// <paramref name="s2"/>가 <paramref name="s1"/>을 회전시킨 결과인지 판별하라.
@@ -268,5 +275,6 @@ namespace Solutions
         {
             return big.IndexOf(small) >= 0;
         }
+        #endregion
     }
 }

@@ -191,7 +191,7 @@ namespace Solutions
         /// </summary>
         /// <param name="root">검사할 이진 트리</param>
         /// <returns><paramref name="root"/>가 이진 트리가 맞다면 <code>true</code>를 반환한다.</returns>
-        public static bool CheckBST(BinaryTreeNode<IComparable> root)
+        public static bool Q5_CheckBST(BinaryTreeNode<IComparable> root)
         {
             return CheckBST(root, null, null);
         }
@@ -212,6 +212,69 @@ namespace Solutions
 
             return true;
         }
+        #endregion
+
+        #region Question 4.6
+        /*
+         * 정순회 기준으로, 이진 탐색 트리 내의 한 노드가 주어지면
+         * 그 노드의 '다음'노드를 찾아내는 알고리즘을 작성하라.
+         * (각 노드에는 부모 노드를 가리키는 링크가 존재한다고 가정한다.)
+         */
+
+        /// <summary>
+        /// 이진 탐색 트리에서 <paramref name="node"/>의 다음 노드를 찾는다.
+        /// </summary>
+        /// <param name="node">다음 노드를 찾을 기준 노드</param>
+        /// <returns><paramref name="node"/>의 다음 노드, 만약 마지막 노드라면 <code>null</code>을 반환한다.</returns>
+        public static BinaryTreeNode<T> Q6_InorderFindSuccessor(BinaryTreeNode<T> node)
+        {
+            if (node is null) { return null; }
+
+            // 노드가 루트 노드이거나, 오른쪽 트리가 존재하지 않을 경우
+            if(node.Parent == null || node.Right != null)
+            {
+                return LeftMostChild(node.Right);
+            }
+
+            var current = node;
+            var parent = node.Parent;
+
+            // 다음 노드를 찾을 수 있도록, 완전히 순회를 끝내지 못한 노드를 찾는다.
+            while (parent != null && parent.Left != current)
+            {
+                current = parent;
+                parent = parent.Parent;
+            }
+
+            return parent;
+        }
+        
+        /// <summary>
+        /// <paramref name="node"/> 노드의 가장 왼쪽에 위치한 자식 노드를 반환한다.
+        /// </summary>
+        /// <param name="node">기준 노드</param>
+        /// <returns>가장 외쪽에 위치한 자식 노드</returns>
+        private static BinaryTreeNode<T> LeftMostChild(BinaryTreeNode<T> node)
+        {
+            if (node is null) { return null; }
+
+            while(node.Left != null)
+            {
+                node = node.Left;
+            }
+
+            return node;
+        }
+        #endregion
+
+        #region Question 4.7
+        /*
+         * 이진 트리 내의 두 노드의 공통 선조 노드를 찾는 알고리즘을 설계하고 구현하라.
+         * 자료구조 내에 부가적인 노드를 저장해 두는 일은 금한다.
+         * (주의: 이진 탐색 트리가 아닐 수도 있다.)
+         */
+
+
         #endregion
     }
 }

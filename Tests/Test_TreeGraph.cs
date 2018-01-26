@@ -150,5 +150,61 @@ namespace Tests
             Assert.IsTrue(levels[3].Contains(root.Left.Right.Left));
             Assert.IsTrue(levels[3].Contains(root.Left.Right.Right));
         }
+
+        [TestMethod]
+        public void Q4_5()
+        {
+            BinaryTreeNode<IComparable> root = new BinaryTreeNode<IComparable>(0)
+            {
+                Left = new BinaryTreeNode<IComparable>(1)
+                {
+                    Left = new BinaryTreeNode<IComparable>(3),
+                    Right = new BinaryTreeNode<IComparable>(4),
+                },
+                Right = new BinaryTreeNode<IComparable>(2)
+            };
+
+            Assert.IsFalse(TreeGraph<int>.Q5_CheckBST(root));
+
+            root = new BinaryTreeNode<IComparable>(4)
+            {
+                Left = new BinaryTreeNode<IComparable>(2)
+                {
+                    Left = new BinaryTreeNode<IComparable>(1),
+                    Right = new BinaryTreeNode<IComparable>(3)
+                },
+                Right = new BinaryTreeNode<IComparable>(6)
+                {
+                    Left = new BinaryTreeNode<IComparable>(5),
+                    Right = new BinaryTreeNode<IComparable>(7)
+                }
+            };
+
+            Assert.IsTrue(TreeGraph<int>.Q5_CheckBST(root));
+        }
+
+        [TestMethod]
+        public void Q4_6()
+        {
+            BinaryTreeNode<IComparable> root = new BinaryTreeNode<IComparable>(4)
+            {
+                Left = new BinaryTreeNode<IComparable>(2)
+                {
+                    Left = new BinaryTreeNode<IComparable>(1),
+                    Right = new BinaryTreeNode<IComparable>(3)
+                },
+                Right = new BinaryTreeNode<IComparable>(6)
+                {
+                    Left = new BinaryTreeNode<IComparable>(5),
+                    Right = new BinaryTreeNode<IComparable>(7)
+                }
+            };
+
+            Assert.AreEqual(5, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root).Data);
+            Assert.AreEqual(7, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Right).Data);
+            Assert.AreEqual(2, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Left.Left).Data);
+
+            Assert.AreEqual(null, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Right.Right));
+        }
     }
 }

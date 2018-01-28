@@ -344,5 +344,70 @@ namespace Solutions
         }
 
         #endregion
+
+        #region Question 4.8
+        /*
+         * 두 개의 큰 이진 트리 T1, T2가 있다고 하자.
+         * T1에는 수백만 개의 노드가 있고, T2에는 수백 개 정도의 노드가 있다.
+         * T2가 T1의 하위 트리인지 판별하는 알고리즘을 만들라.
+         * T1 안에 노드 n이 있어 그 노드의 하위 트리가 T2와 동일하면, T2는 T1의 하위 트리다.
+         * 다시 말해, T1에서 n부터 시작하여 그 아래쪽을 끊어 내면, 그 결과가 T2와 동일해야 한다.
+         */
+
+        public static bool ContainsTree(BinaryTreeNode<IComparable> t1, BinaryTreeNode<IComparable> t2)
+        {
+            if(t2 == null)
+            {
+                // 빈 트리는 언제나 모든 트리의 하위 트리
+                return true;
+            }
+
+            return SubTree(t1, t2);
+        }
+
+        /// <summary>
+        /// <paramref name="r2"/>가 <paramref name="r1"/>의 하위 트리인지 판별한다.
+        /// </summary>
+        /// <param name="r1">전체 트리 노드</param>
+        /// <param name="r2">하위 트리 노드</param>
+        /// <returns></returns>
+        private static bool SubTree(BinaryTreeNode<IComparable> r1, BinaryTreeNode<IComparable> r2)
+        {
+            if (r1 == null)
+            {
+                return false;
+            }
+
+            if(r1.Data == r2.Data)
+            {
+                if(MatchTree(r1, r2))
+                {
+                    return true;
+                }
+            }
+
+            return (SubTree(r1.Left, r2) || SubTree(r2.Right, r2));
+        }
+
+        private static bool MatchTree(BinaryTreeNode<IComparable> r1, BinaryTreeNode<IComparable> r2)
+        {
+            if(r2 == null && r1 == null)
+            {
+                return true;
+            }
+
+            if(r1 == null || r2 == null)
+            {
+                return false;
+            }
+
+            if(r1.Data != r2.Data)
+            {
+                return false;
+            }
+
+            return (MatchTree(r1.Left, r2.Left) && MatchTree(r1.Right, r2.Right));
+        }
+        #endregion
     }
 }

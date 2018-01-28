@@ -206,5 +206,40 @@ namespace Tests
 
             Assert.AreEqual(null, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Right.Right));
         }
+
+        [TestMethod]
+        public void Q4_7()
+        {
+            BinaryTreeNode<int> root = new BinaryTreeNode<int>(0)
+            {
+                Left = new BinaryTreeNode<int>(1)
+                {
+                    Left = new BinaryTreeNode<int>(3)
+                    {
+                        Left = new BinaryTreeNode<int>(7),
+                        Right = new BinaryTreeNode<int>(8)
+                    },
+                    Right = new BinaryTreeNode<int>(4)
+                    {
+                        Left = new BinaryTreeNode<int>(9),
+                        Right = new BinaryTreeNode<int>(10)
+                    },
+                },
+                Right = new BinaryTreeNode<int>(2)
+                {
+                    Left = new BinaryTreeNode<int>(5),
+                    Right = new BinaryTreeNode<int>(6)
+                }
+            };
+
+            BinaryTreeNode<int> notin = new BinaryTreeNode<int>(11);
+
+            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, root, root));
+            Assert.AreEqual(root.Left, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Right));
+            Assert.AreEqual(root, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Right.Left, root.Left.Right));
+            Assert.AreEqual(root.Left, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Left));
+            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, null, root.Left.Left));
+            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, notin, root.Left.Left));
+        }
     }
 }

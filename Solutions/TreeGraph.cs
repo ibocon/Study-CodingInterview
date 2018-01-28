@@ -274,6 +274,74 @@ namespace Solutions
          * (주의: 이진 탐색 트리가 아닐 수도 있다.)
          */
 
+        /// <summary>
+        /// <paramref name="root"/> 이진 트리 내 <paramref name="p"/>와 <paramref name="q"/>의 공통 선조 노드를 찾는다.
+        /// </summary>
+        /// <param name="root">탐색할 이진트리</param>
+        /// <param name="p">공통 노드를 찾기 위한 기준 노드 P</param>
+        /// <param name="q">공통 노드를 찾기 위한 기준 노드 Q</param>
+        /// <returns>
+        /// <paramref name="p"/>와 <paramref name="q"/>의 공통 조상을 반환한다.
+        /// <paramref name="p"/>나 <paramref name="q"/>가 <paramref name="root"/>의 하위 트리 내에 없으면 <code>null</code>을 반환한다.
+        /// <paramref name="p"/>가 <paramref name="q"/>의 하위 노드일 경우, <paramref name="q"/>의 조상 노드가 반환된다.
+        /// <paramref name="p"/>나 <paramref name="q"/>가 루트 노드일 경우, <code>null</code>을 반환한다.
+        /// </returns>
+        public static BinaryTreeNode<T> Q7_GetCommonAncestor(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
+        {
+            // root가 없거나 p 또는 q가 트리 내에 없다면 null을 반환한다.
+            if(root is null || root == p || root == q || !CheckNodeExist(root, p) || !CheckNodeExist(root, q))
+            {
+                return null;
+            }
+
+            return FindCommonAncestor(root, p, q);
+        }
+
+        private static BinaryTreeNode<T> FindCommonAncestor(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
+        {
+            if(root is null)
+            {
+                return null;
+            }
+
+            if(p == q)
+            {
+                return p.Parent;
+            }
+
+            if(root == p || root == q)
+            {
+                return root;
+            }
+
+            var leftResult = FindCommonAncestor(root.Left, p, q);
+            var rightResult = FindCommonAncestor(root.Right, p, q);
+
+            if (leftResult == null && rightResult == null)
+            {
+                return null;
+            }
+            else if(leftResult != null && rightResult == null)
+            {
+                return leftResult;
+            }
+            else if(leftResult == null && rightResult != null)
+            {
+                return rightResult;
+            }
+            else
+            {
+                return root;
+            }
+        }
+
+        private static bool CheckNodeExist(BinaryTreeNode<T> root, BinaryTreeNode<T> node)
+        {
+            if(root is null || node is null) { return false; }
+            if (root == node) { return true; }
+
+            return CheckNodeExist(root.Left, node) || CheckNodeExist(root.Right, node);
+        }
 
         #endregion
     }

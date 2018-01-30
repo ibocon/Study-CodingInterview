@@ -241,5 +241,45 @@ namespace Tests
             Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, null, root.Left.Left));
             Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, notin, root.Left.Left));
         }
+
+        [TestMethod]
+        public void Q4_8()
+        {
+            BinaryTreeNode<IComparable> t1 = new BinaryTreeNode<IComparable>(0)
+            {
+                Left = new BinaryTreeNode<IComparable>(1)
+                {
+                    Left = new BinaryTreeNode<IComparable>(3)
+                    {
+                        Left = new BinaryTreeNode<IComparable>(7),
+                        Right = new BinaryTreeNode<IComparable>(8)
+                    },
+                    Right = new BinaryTreeNode<IComparable>(4)
+                    {
+                        Left = new BinaryTreeNode<IComparable>(9),
+                        Right = new BinaryTreeNode<IComparable>(10)
+                    },
+                },
+                Right = new BinaryTreeNode<IComparable>(2)
+                {
+                    Left = new BinaryTreeNode<IComparable>(5),
+                    Right = new BinaryTreeNode<IComparable>(6)
+                }
+            };
+
+            BinaryTreeNode<IComparable> t2 = new BinaryTreeNode<IComparable>(3)
+            {
+                Left = new BinaryTreeNode<IComparable>(7),
+                Right = new BinaryTreeNode<IComparable>(8)
+            };
+
+            Assert.IsTrue(TreeGraph<IComparable>.Q8_ContainsTree(t1, t2));
+
+            t2.Left = new BinaryTreeNode<IComparable>(100);
+            Assert.IsFalse(TreeGraph<IComparable>.Q8_ContainsTree(t1, t2));
+
+            Assert.IsTrue(TreeGraph<IComparable>.Q8_ContainsTree(t1, null));
+            Assert.IsFalse(TreeGraph<IComparable>.Q8_ContainsTree(null, t2));
+        }
     }
 }

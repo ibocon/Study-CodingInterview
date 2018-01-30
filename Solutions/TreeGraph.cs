@@ -354,7 +354,7 @@ namespace Solutions
          * 다시 말해, T1에서 n부터 시작하여 그 아래쪽을 끊어 내면, 그 결과가 T2와 동일해야 한다.
          */
 
-        public static bool ContainsTree(BinaryTreeNode<IComparable> t1, BinaryTreeNode<IComparable> t2)
+        public static bool Q8_ContainsTree(BinaryTreeNode<IComparable> t1, BinaryTreeNode<IComparable> t2)
         {
             if(t2 == null)
             {
@@ -378,7 +378,7 @@ namespace Solutions
                 return false;
             }
 
-            if(r1.Data == r2.Data)
+            if(r1.Data.CompareTo(r2.Data) == 0)
             {
                 if(MatchTree(r1, r2))
                 {
@@ -386,12 +386,12 @@ namespace Solutions
                 }
             }
 
-            return (SubTree(r1.Left, r2) || SubTree(r2.Right, r2));
+            return (SubTree(r1.Left, r2) || SubTree(r1.Right, r2));
         }
 
         private static bool MatchTree(BinaryTreeNode<IComparable> r1, BinaryTreeNode<IComparable> r2)
         {
-            if(r2 == null && r1 == null)
+            if(r1 == null && r2 == null)
             {
                 return true;
             }
@@ -401,7 +401,7 @@ namespace Solutions
                 return false;
             }
 
-            if(r1.Data != r2.Data)
+            if(r1.Data.CompareTo(r2.Data) != 0)
             {
                 return false;
             }

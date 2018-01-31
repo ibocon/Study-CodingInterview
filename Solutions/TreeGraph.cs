@@ -409,5 +409,72 @@ namespace Solutions
             return (MatchTree(r1.Left, r2.Left) && MatchTree(r1.Right, r2.Right));
         }
         #endregion
+
+        #region Question 4.9
+        /*
+         * 각 노드에 어떤 값이 저장되어 있는 이진 트리 하나와 값 n이 주어졌을 때, n과 같은 값을 갖는 모든 경로를 찾아라.
+         * 어떤 경로의 값은 그 경로에 포함된 모든 노드의 값의 합이며, 경로는 트리 내의 아무 위치에서나 시작되고 끝날 수 있다.
+         */
+
+        public static IEnumerable<List<BinaryTreeNode<int>>> Q9_FindSum(BinaryTreeNode<int> node, int sum)
+        {
+            if(node == null)
+            {
+                return null;
+            }
+
+            var path = (new List<BinaryTreeNode<int>>(), 0);
+
+            var result = new List<List<BinaryTreeNode<int>>>
+            {
+                new List<BinaryTreeNode<int>>()
+            };
+
+            FindSumPath(ref path, ref result, node, sum);
+
+            return result;
+        }
+
+        private static void FindSumPath(ref (List<BinaryTreeNode<int>>, int) path, ref List<List<BinaryTreeNode<int>>> result, BinaryTreeNode<int> node, int sum)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            var pathNode = path.Item1;
+            pathNode.Add(node);
+
+            var pathSum = (path.Item2 += node.Data);
+
+            var cal = (new List<BinaryTreeNode<int>>(), 0);
+            for (var i =pathNode.Count; i >= 0; i--)
+            {
+                cal.Item1.Add(pathNode[i]);
+                cal.Item2 += pathNode[i].Data;
+
+                if (cal.Item2 == sum)
+                {
+                    result.Add(pathNode.ToList());
+                }
+            }
+            
+            FindSumPath(ref path, ref result, node.Left, sum);
+
+            if(node.Left != null)
+            {
+                pathNode.Remove(node.Left);
+                pathSum = (path.Item2 -= node.Left.Data);
+            }
+
+            FindSumPath(ref path, ref result, node.Right, sum);
+
+            if (node.Right != null)
+            {
+                pathNode.Remove(node.Right);
+                pathSum = (path.Item2 -= node.Right.Data);
+            }
+        }
+        #endregion
     }
 }

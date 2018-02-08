@@ -5,7 +5,7 @@ using Solutions.Library;
 
 namespace Solutions
 {
-    public class TreeGraph<T> where T : IComparable
+    public class TreeGraph
     {
         #region Question 4.1
         // 주어진 이진 트리가 균형 이진 트리인지 판별하는 함수를 구현하라.
@@ -16,7 +16,7 @@ namespace Solutions
         /// </summary>
         /// <param name="tree">균형을 검사할 이진 트리</param>
         /// <returns><paramref name="tree"/>이 균형이면 <code>true</code>를 반환한다.</returns>
-        public static bool Q1_IsBalanced(BinaryTree<T> tree)
+        public static bool Q1_IsBalanced<T>(BinaryTree<T> tree)
         {
             if (CheckHeight(tree.Root) is null)
             {
@@ -33,7 +33,7 @@ namespace Solutions
         /// </summary>
         /// <param name="node">높이를 검사할 이진트리 노드</param>
         /// <returns>노드의 높이를 반환한다. 다만, 균형이 깨졌을 경우 <code>null</code>을 반환한다.</returns>
-        private static int? CheckHeight(BinaryTreeNode<T> node)
+        private static int? CheckHeight<T>(BinaryTreeNode<T> node)
         {
             if (node == null) { return 0; } 
 
@@ -58,7 +58,7 @@ namespace Solutions
          * 주어진 유향 그래프(directed graph)에서 특정한 두 노드 간에 경로(route)가 존재하는지를 판별하는 알고리즘을 구현하라.
          */
 
-        public static bool Q2_Search(Graph<T> graph, GraphNode<T> start, GraphNode<T> end)
+        public static bool Q2_Search<T>(Graph<T> graph, GraphNode<T> start, GraphNode<T> end)
         {
             var nodeList = new LinkedList<GraphNode<T>>();
 
@@ -118,7 +118,7 @@ namespace Solutions
         /* 오름차순으로 정렬된 배열로부터 그 높이가 가장 낮은 이진 탐색 트리를 생성하는 알고리즘을 작성하라.
          * 배열 내 모든 원소는 배열 내에서 유일한 값을 갖는다.
          */
-        public static BinaryTreeNode<T> Q3_CreateMinimalBST(IEnumerable<T> array)
+        public static BinaryTreeNode<T> Q3_CreateMinimalBST<T>(IEnumerable<T> array)
         {
             if(array.Count() == 0)
             {
@@ -143,7 +143,7 @@ namespace Solutions
         /* 주어진 이진 트리에서 깊이별로 연결 리스트를 만들어 내는 알고리즘을 작성하라.
          * (트리의 깊이가 D라면, 알고리즘 수행 결과로 D개의 연결 리스트가 만들어져야 한다.)
          */
-        public static IList<LinkedList<BinaryTreeNode<T>>> Q4_CreateLevelLinkedList(BinaryTreeNode<T> root)
+        public static IList<LinkedList<BinaryTreeNode<T>>> Q4_CreateLevelLinkedList<T>(BinaryTreeNode<T> root)
         {
             if(root == null) { return null; }
 
@@ -157,7 +157,7 @@ namespace Solutions
             return levels;
         }
 
-        private static void CreateALevelLinkedList(ref IList<LinkedList<BinaryTreeNode<T>>> levels, LinkedList<BinaryTreeNode<T>> previewLevel)
+        private static void CreateALevelLinkedList<T>(ref IList<LinkedList<BinaryTreeNode<T>>> levels, LinkedList<BinaryTreeNode<T>> previewLevel)
         {
             var newLevel = new LinkedList<BinaryTreeNode<T>>();
             foreach(var parent in previewLevel)
@@ -226,7 +226,7 @@ namespace Solutions
         /// </summary>
         /// <param name="node">다음 노드를 찾을 기준 노드</param>
         /// <returns><paramref name="node"/>의 다음 노드, 만약 마지막 노드라면 <code>null</code>을 반환한다.</returns>
-        public static BinaryTreeNode<T> Q6_InorderFindSuccessor(BinaryTreeNode<T> node)
+        public static BinaryTreeNode<T> Q6_InorderFindSuccessor<T>(BinaryTreeNode<T> node)
         {
             if (node is null) { return null; }
 
@@ -254,7 +254,7 @@ namespace Solutions
         /// </summary>
         /// <param name="node">기준 노드</param>
         /// <returns>가장 외쪽에 위치한 자식 노드</returns>
-        private static BinaryTreeNode<T> LeftMostChild(BinaryTreeNode<T> node)
+        private static BinaryTreeNode<T> LeftMostChild<T>(BinaryTreeNode<T> node)
         {
             if (node is null) { return null; }
 
@@ -286,7 +286,7 @@ namespace Solutions
         /// <paramref name="p"/>가 <paramref name="q"/>의 하위 노드일 경우, <paramref name="q"/>의 조상 노드가 반환된다.
         /// <paramref name="p"/>나 <paramref name="q"/>가 루트 노드일 경우, <code>null</code>을 반환한다.
         /// </returns>
-        public static BinaryTreeNode<T> Q7_GetCommonAncestor(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
+        public static BinaryTreeNode<T> Q7_GetCommonAncestor<T>(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
         {
             // root가 없거나 p 또는 q가 트리 내에 없다면 null을 반환한다.
             if(root is null || root == p || root == q || !CheckNodeExist(root, p) || !CheckNodeExist(root, q))
@@ -297,7 +297,7 @@ namespace Solutions
             return FindCommonAncestor(root, p, q);
         }
 
-        private static BinaryTreeNode<T> FindCommonAncestor(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
+        private static BinaryTreeNode<T> FindCommonAncestor<T>(BinaryTreeNode<T> root, BinaryTreeNode<T> p, BinaryTreeNode<T> q)
         {
             if(root is null)
             {
@@ -335,7 +335,7 @@ namespace Solutions
             }
         }
 
-        private static bool CheckNodeExist(BinaryTreeNode<T> root, BinaryTreeNode<T> node)
+        private static bool CheckNodeExist<T>(BinaryTreeNode<T> root, BinaryTreeNode<T> node)
         {
             if(root is null || node is null) { return false; }
             if (root == node) { return true; }
@@ -423,56 +423,55 @@ namespace Solutions
                 return null;
             }
 
-            var path = (new List<BinaryTreeNode<int>>(), 0);
+            var path = (Nodes: new List<BinaryTreeNode<int>>(), Sum: 0);
 
-            var result = new List<List<BinaryTreeNode<int>>>
-            {
-                new List<BinaryTreeNode<int>>()
-            };
+            var result = new List<List<BinaryTreeNode<int>>>();
 
-            FindSumPath(ref path, ref result, node, sum);
+            FindSumPath(node, sum, ref path, ref result);
 
             return result;
         }
 
-        private static void FindSumPath(ref (List<BinaryTreeNode<int>>, int) path, ref List<List<BinaryTreeNode<int>>> result, BinaryTreeNode<int> node, int sum)
+        private static void FindSumPath(BinaryTreeNode<int> node, int sum, ref (List<BinaryTreeNode<int>> Nodes, int Sum) path, ref List<List<BinaryTreeNode<int>>> result)
         {
             if (node == null)
             {
                 return;
             }
 
-            var pathNode = path.Item1;
+            var pathNode = path.Nodes;
             pathNode.Add(node);
 
-            var pathSum = (path.Item2 += node.Data);
+            var pathSum = (path.Sum += node.Data);
 
-            var cal = (new List<BinaryTreeNode<int>>(), 0);
-            for (var i =pathNode.Count; i >= 0; i--)
+            var (Nodes, Sum) = (new List<BinaryTreeNode<int>>(), 0);
+            for (var i = pathNode.Count - 1; i >= 0; i--)
             {
-                cal.Item1.Add(pathNode[i]);
-                cal.Item2 += pathNode[i].Data;
+                Nodes.Add(pathNode[i]);
+                Sum += pathNode[i].Data;
 
-                if (cal.Item2 == sum)
+                if (Sum == sum)
                 {
-                    result.Add(pathNode.ToList());
+                    var sumPath = Nodes.ToList();
+                    sumPath.Reverse();
+                    result.Add(sumPath);
                 }
             }
             
-            FindSumPath(ref path, ref result, node.Left, sum);
+            FindSumPath(node.Left, sum, ref path, ref result);
 
             if(node.Left != null)
             {
                 pathNode.Remove(node.Left);
-                pathSum = (path.Item2 -= node.Left.Data);
+                pathSum = (path.Sum -= node.Left.Data);
             }
 
-            FindSumPath(ref path, ref result, node.Right, sum);
+            FindSumPath(node.Right, sum, ref path, ref result);
 
             if (node.Right != null)
             {
                 pathNode.Remove(node.Right);
-                pathSum = (path.Item2 -= node.Right.Data);
+                pathSum = (path.Sum -= node.Right.Data);
             }
         }
         #endregion

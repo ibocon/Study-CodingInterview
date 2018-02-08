@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Solutions;
 using System.Collections.ObjectModel;
 using System;
+using System.Linq;
 
 namespace Tests
 {
@@ -38,7 +39,7 @@ namespace Tests
             };
 
             tree = new BinaryTree<int>(Comparer<int>.Default, balanced);
-            Assert.IsTrue(TreeGraph<int>.Q1_IsBalanced(tree));
+            Assert.IsTrue(TreeGraph.Q1_IsBalanced(tree));
 
             BinaryTreeNode<int> notBalanced = new BinaryTreeNode<int>(0)
             {
@@ -55,7 +56,7 @@ namespace Tests
             };
 
             tree = new BinaryTree<int>(Comparer<int>.Default, notBalanced);
-            Assert.IsFalse(TreeGraph<int>.Q1_IsBalanced(tree));
+            Assert.IsFalse(TreeGraph.Q1_IsBalanced(tree));
         }
 
         [TestMethod]
@@ -78,15 +79,15 @@ namespace Tests
 
             var graph = new Graph<string>(nodes);
 
-            Assert.IsTrue(TreeGraph<string>.Q2_Search(graph, nodes[3], nodes[5]));
-            Assert.IsFalse(TreeGraph<string>.Q2_Search(graph, nodes[0], nodes[5]));
+            Assert.IsTrue(TreeGraph.Q2_Search(graph, nodes[3], nodes[5]));
+            Assert.IsFalse(TreeGraph.Q2_Search(graph, nodes[0], nodes[5]));
         }
 
         [TestMethod]
         public void Q4_3()
         {
             var array = new List<int>() { 1, 2, 3, 4, 5 };
-            var treeNode = TreeGraph<int>.Q3_CreateMinimalBST(array);
+            var treeNode = TreeGraph.Q3_CreateMinimalBST(array);
 
             Assert.AreEqual(3, treeNode.Data);
             Assert.AreEqual(2, treeNode.Left.Data);
@@ -95,7 +96,7 @@ namespace Tests
             Assert.AreEqual(4, treeNode.Right.Left.Data);
 
             array = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            treeNode = TreeGraph<int>.Q3_CreateMinimalBST(array);
+            treeNode = TreeGraph.Q3_CreateMinimalBST(array);
 
             Assert.AreEqual(6, treeNode.Data);
             Assert.AreEqual(3, treeNode.Left.Data);
@@ -133,7 +134,7 @@ namespace Tests
                 }
             };
 
-            var levels = TreeGraph<int>.Q4_CreateLevelLinkedList(root);
+            var levels = TreeGraph.Q4_CreateLevelLinkedList(root);
 
             Assert.IsTrue(levels[0].Contains(root));
 
@@ -164,7 +165,7 @@ namespace Tests
                 Right = new BinaryTreeNode<IComparable>(2)
             };
 
-            Assert.IsFalse(TreeGraph<int>.Q5_CheckBST(root));
+            Assert.IsFalse(TreeGraph.Q5_CheckBST(root));
 
             root = new BinaryTreeNode<IComparable>(4)
             {
@@ -180,7 +181,7 @@ namespace Tests
                 }
             };
 
-            Assert.IsTrue(TreeGraph<int>.Q5_CheckBST(root));
+            Assert.IsTrue(TreeGraph.Q5_CheckBST(root));
         }
 
         [TestMethod]
@@ -200,11 +201,11 @@ namespace Tests
                 }
             };
 
-            Assert.AreEqual(5, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root).Data);
-            Assert.AreEqual(7, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Right).Data);
-            Assert.AreEqual(2, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Left.Left).Data);
+            Assert.AreEqual(5, TreeGraph.Q6_InorderFindSuccessor(root).Data);
+            Assert.AreEqual(7, TreeGraph.Q6_InorderFindSuccessor(root.Right).Data);
+            Assert.AreEqual(2, TreeGraph.Q6_InorderFindSuccessor(root.Left.Left).Data);
 
-            Assert.AreEqual(null, TreeGraph<IComparable>.Q6_InorderFindSuccessor(root.Right.Right));
+            Assert.AreEqual(null, TreeGraph.Q6_InorderFindSuccessor(root.Right.Right));
         }
 
         [TestMethod]
@@ -234,12 +235,12 @@ namespace Tests
 
             BinaryTreeNode<int> notin = new BinaryTreeNode<int>(11);
 
-            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, root, root));
-            Assert.AreEqual(root.Left, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Right));
-            Assert.AreEqual(root, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Right.Left, root.Left.Right));
-            Assert.AreEqual(root.Left, TreeGraph<int>.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Left));
-            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, null, root.Left.Left));
-            Assert.AreEqual(null, TreeGraph<int>.Q7_GetCommonAncestor(root, notin, root.Left.Left));
+            Assert.AreEqual(null, TreeGraph.Q7_GetCommonAncestor(root, root, root));
+            Assert.AreEqual(root.Left, TreeGraph.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Right));
+            Assert.AreEqual(root, TreeGraph.Q7_GetCommonAncestor(root, root.Right.Left, root.Left.Right));
+            Assert.AreEqual(root.Left, TreeGraph.Q7_GetCommonAncestor(root, root.Left.Left, root.Left.Left));
+            Assert.AreEqual(null, TreeGraph.Q7_GetCommonAncestor(root, null, root.Left.Left));
+            Assert.AreEqual(null, TreeGraph.Q7_GetCommonAncestor(root, notin, root.Left.Left));
         }
 
         [TestMethod]
@@ -273,13 +274,62 @@ namespace Tests
                 Right = new BinaryTreeNode<IComparable>(8)
             };
 
-            Assert.IsTrue(TreeGraph<IComparable>.Q8_ContainsTree(t1, t2));
+            Assert.IsTrue(TreeGraph.Q8_ContainsTree(t1, t2));
 
             t2.Left = new BinaryTreeNode<IComparable>(100);
-            Assert.IsFalse(TreeGraph<IComparable>.Q8_ContainsTree(t1, t2));
+            Assert.IsFalse(TreeGraph.Q8_ContainsTree(t1, t2));
 
-            Assert.IsTrue(TreeGraph<IComparable>.Q8_ContainsTree(t1, null));
-            Assert.IsFalse(TreeGraph<IComparable>.Q8_ContainsTree(null, t2));
+            Assert.IsTrue(TreeGraph.Q8_ContainsTree(t1, null));
+            Assert.IsFalse(TreeGraph.Q8_ContainsTree(null, t2));
+        }
+
+        [TestMethod]
+        public void Q4_9()
+        {
+            var sum = 0;
+            var nodes = new BinaryTreeNode<int>(1)
+            {
+                Left = new BinaryTreeNode<int>(0)
+                {
+                    Left = new BinaryTreeNode<int>(2),
+                    Right = new BinaryTreeNode<int>(-1)
+                },
+                Right = new BinaryTreeNode<int>(-1),
+            };
+
+            var result = TreeGraph.Q9_FindSum(nodes, sum);
+
+            var expected = new List<List<BinaryTreeNode<int>>>
+            {
+                new List<BinaryTreeNode<int>>
+                {
+                    nodes.Left
+                },
+                new List<BinaryTreeNode<int>>
+                {
+                    nodes, nodes.Right
+                },
+                new List<BinaryTreeNode<int>>
+                {
+                    nodes, nodes.Left, nodes.Left.Right
+                },
+            };
+
+            foreach (var exptectedPath in expected)
+            {
+                bool included = false;
+                foreach (var resultPath in result)
+                {
+                    included = exptectedPath.SequenceEqual(resultPath);
+                    if (included)
+                    {
+                        break;
+                    }
+                }
+
+                Assert.IsTrue(included);
+            }
+
         }
     }
 }

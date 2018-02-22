@@ -1,7 +1,7 @@
 ﻿
 namespace Solutions
 {
-    public class DataStruct
+    public static class DataStruct
     {
         #region Question 1.1
         /// <summary>
@@ -10,7 +10,7 @@ namespace Solutions
         /// </summary>
         /// <param name="input">입력 문자열</param>
         /// <returns>문자열 내의 모든 문자가 전부 유일하면 <c>true</c></returns>
-        public bool Q1_IsUniqueChar(string input)
+        public static bool Q1_IsUniqueChar(string input)
         {
             for(int i = 0; i < input.Length - 1; i++)
             {
@@ -29,7 +29,7 @@ namespace Solutions
         /// </summary>
         /// <param name="input">입력 문자열</param>
         /// <returns><paramref name="input"/>이 뒤집어진 문자열</returns>
-        public string Q2_Reverse(string input)
+        public static string Q2_Reverse(string input)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
@@ -49,7 +49,7 @@ namespace Solutions
         /// <param name="original">판별기준 문자열</param>
         /// <param name="input">판별대상 문자열</param>
         /// <returns><paramref name="input"/>가 <paramref name="original"/>의 순열이면 <c>true</c></returns>
-        public bool Q3_IsPermutation(string original, string input)
+        public static bool Q3_IsPermutation(string original, string input)
         {
             //입력된 문자열에서 다른 문자열과 동일한 문자를 제거하여 순열 판별
             for(int i = 0; i < original.Length; i++)
@@ -81,7 +81,7 @@ namespace Solutions
         /// </summary>
         /// <param name="input">입력 문자열</param>
         /// <returns><paramref name="input"/>의 모든 공백이 '%20'으로 변환된 값</returns>
-        public string Q4_ReplaceSpaces(string input)
+        public static string Q4_ReplaceSpaces(string input)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
@@ -108,7 +108,7 @@ namespace Solutions
         /// </summary>
         /// <param name="input">입력 문자열</param>
         /// <returns><paramref name="input"/>이 압축된 문자열</returns>
-        public string Q5_Compress(string input)
+        public static string Q5_Compress(string input)
         {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
@@ -154,7 +154,7 @@ namespace Solutions
         /// (추가 행렬 사용없이 해결)
         /// </summary>
         /// <param name="matrix">입력된 행렬</param>
-        public void Q6_Rotate(int[,] matrix)
+        public static void Q6_Rotate(int[,] matrix)
         {
             int layerCount = matrix.GetLength(0);
 
@@ -196,7 +196,7 @@ namespace Solutions
         /// 해당 원소가 속한 행과 열의 모든 원소를 0으로 설정하라.
         /// </summary>
         /// <param name="matrix">입력된 행렬</param>
-        public void Q07_SetZeros(int[,] matrix)
+        public static void Q07_SetZeros(int[,] matrix)
         {
             int m = matrix.GetLength(0);
             int n = matrix.GetLength(1);
@@ -250,7 +250,7 @@ namespace Solutions
         /// <param name="s1"><paramref name="s2"/>가 회전한 문자열인지 판별기준</param>
         /// <param name="s2"><paramref name="s1"/>의 회전된 문자열인지 판별대상</param>
         /// <returns><paramref name="s2"/>가 <paramref name="s1"/>를 회전시킨 결과라면 <c>ture</c></returns>
-        public bool Q08_IsRotation(string s1, string s2)
+        public static bool Q08_IsRotation(string s1, string s2)
         {
             var len = s1.Length;
 
@@ -271,7 +271,7 @@ namespace Solutions
         /// <param name="big"></param>
         /// <param name="small"></param>
         /// <returns></returns>
-        private bool IsSubstring(string big, string small)
+        private static bool IsSubstring(string big, string small)
         {
             return big.IndexOf(small) >= 0;
         }

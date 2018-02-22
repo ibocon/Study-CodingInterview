@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Solutions
 {
 
-    public class StackQueue
+    public static class StackQueue
     {
         #region Question 3.1
         /* 

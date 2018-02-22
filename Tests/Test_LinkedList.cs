@@ -8,13 +8,6 @@ namespace Tests
     [TestClass]
     public class Test_LinkedList
     {
-        private readonly LinkedList linkedList;
-
-        public Test_LinkedList()
-        {
-            linkedList = new LinkedList();
-        }
-
         [TestMethod]
         public void Q2_1()
         {
@@ -29,7 +22,7 @@ namespace Tests
                 prev = next;
             }
 
-            this.linkedList.Q1_RemoveDuplicates<char>(head);
+            LinkedList.Q1_RemoveDuplicates<char>(head);
 
             var a = head;
             while (a.Next != null)
@@ -54,7 +47,7 @@ namespace Tests
 
             int n = rand.Next(1, count + 1);
 
-            var result = linkedList.Q2_GetNthNodeFromLast<char>(sample, n);
+            var result = LinkedList.Q2_GetNthNodeFromLast<char>(sample, n);
 
             LinkedListNode<char> expected = sample;
             while (expected.Next != null)
@@ -86,7 +79,7 @@ namespace Tests
                 node = node.Next;
             }
 
-            Assert.IsTrue(linkedList.Q3_DeleteNode<char>(node));
+            Assert.IsTrue(LinkedList.Q3_DeleteNode<char>(node));
 
             LinkedListNode<char> check = sample;
             for (int i = 1; i < count; i++)
@@ -117,7 +110,7 @@ namespace Tests
 
             //코드 테스트
             int pivot = rand.Next(0, max);
-            var result = this.linkedList.Q4_Partition(head, pivot);
+            var result = LinkedList.Q4_Partition(head, pivot);
 
             //코드 테스트 결과 검증
             bool pass = false;
@@ -152,7 +145,7 @@ namespace Tests
             var number2B = new LinkedListNode<int>(rand.Next(0, 10), null, number2A);
             var number2C = new LinkedListNode<int>(rand.Next(0, 10), null, number2B);
 
-            var result = this.linkedList.Q5_AddNumbers(number1A, number2A, false);
+            var result = LinkedList.Q5_AddNumbers(number1A, number2A, false);
 
             var cur = result;
 
@@ -187,7 +180,7 @@ namespace Tests
             nodes[listLength - 1].Next = nodes[listLength - k - 1];
             Console.WriteLine("{0} -> {1}", nodes[listLength - 1].Data, nodes[listLength - k - 1].Data);
 
-            var loop = this.linkedList.Q6_FindBeginning<int>(nodes[0]);
+            var loop = LinkedList.Q6_FindBeginning<int>(nodes[0]);
 
             Assert.IsNotNull(loop);
         }
@@ -218,11 +211,11 @@ namespace Tests
 
             var head = nodes[0];
             
-            Assert.IsTrue(this.linkedList.Q7_IsPalindrome(head));
+            Assert.IsTrue(LinkedList.Q7_IsPalindrome(head));
 
             nodes[length - 2].Data = 9;
 
-            Assert.IsFalse(this.linkedList.Q7_IsPalindrome(head));
+            Assert.IsFalse(LinkedList.Q7_IsPalindrome(head));
         }
 
         private LinkedListNode<char> CreateLinkedList(int count)

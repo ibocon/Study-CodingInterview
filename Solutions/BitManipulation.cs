@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Solutions
 {
-    public class BitManipulation
+    public static class BitManipulation
     {
         #region Question 5.1
         /*

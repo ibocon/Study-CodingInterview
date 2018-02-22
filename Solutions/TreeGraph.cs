@@ -5,7 +5,7 @@ using Solutions.Library;
 
 namespace Solutions
 {
-    public class TreeGraph
+    public static class TreeGraph
     {
         #region Question 4.1
         // 주어진 이진 트리가 균형 이진 트리인지 판별하는 함수를 구현하라.

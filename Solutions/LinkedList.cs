@@ -4,7 +4,7 @@ using Solutions.Library;
 
 namespace Solutions
 {
-    public class LinkedList
+    public static class LinkedList
     {
         #region Question 2.1
         /// <summary>
@@ -13,7 +13,7 @@ namespace Solutions
         /// </summary>
         /// <typeparam name="T"><code>IComparable</code></typeparam>
         /// <param name="head">리스트의 시작지점</param>
-        public void Q1_RemoveDuplicates<T>(LinkedListNode<T> head) where T : IComparable<T>
+        public static void Q1_RemoveDuplicates<T>(LinkedListNode<T> head) where T : IComparable<T>
         {
             if (head == null) return;
 
@@ -54,7 +54,7 @@ namespace Solutions
         /// <param name="head">리스트의 시작지점</param>
         /// <param name="n">찾고자 하는 원소 위치</param>
         /// <returns><paramref name="n"/>번째 원소</returns>
-        public LinkedListNode<T> Q2_GetNthNodeFromLast<T>(LinkedListNode<T> head, int n)
+        public static LinkedListNode<T> Q2_GetNthNodeFromLast<T>(LinkedListNode<T> head, int n)
         {
             int length = 0;
             var cursor = head;
@@ -82,7 +82,7 @@ namespace Solutions
         /// <typeparam name="T"><code>LinkedListNode</code>의 Generic Type</typeparam>
         /// <param name="target">삭제할 노드</param>
         /// <returns></returns>
-        public bool Q3_DeleteNode<T>(LinkedListNode<T> target)
+        public static bool Q3_DeleteNode<T>(LinkedListNode<T> target)
         {
             if (target == null) return false;
 
@@ -112,7 +112,7 @@ namespace Solutions
         /// <param name="head">리스트의 시작지점</param>
         /// <param name="pivot">기준값</param>
         /// <returns>새로운 head</returns>
-        public LinkedListNode<int> Q4_Partition(LinkedListNode<int> head, int pivot)
+        public static LinkedListNode<int> Q4_Partition(LinkedListNode<int> head, int pivot)
         {
             if (head == null) return head;
 
@@ -166,7 +166,7 @@ namespace Solutions
         /// <param name="number2">두번째 수</param>
         /// <param name="carry">자리넘김</param>
         /// <returns><paramref name="number1"/>와 <paramref name="number2"/>를 합한 수. 잘못된 값이 입력되었을 경우 <c>null</c>을 반환한다.</returns>
-        public LinkedListNode<int> Q5_AddNumbers(LinkedListNode<int> number1, LinkedListNode<int> number2, bool carry)
+        public static LinkedListNode<int> Q5_AddNumbers(LinkedListNode<int> number1, LinkedListNode<int> number2, bool carry)
         {
             if (number1 == null && number2 == null) return null;
 
@@ -176,7 +176,7 @@ namespace Solutions
             
             bool quotient = (value / 10) > 0;
             int remainder = value % 10;
-            LinkedListNode<int> result = new LinkedListNode<int>(remainder, this.Q5_AddNumbers( number1?.Next, number2?.Next, carry), null);
+            LinkedListNode<int> result = new LinkedListNode<int>(remainder, Q5_AddNumbers( number1?.Next, number2?.Next, carry), null);
 
             return result;
         }
@@ -189,7 +189,7 @@ namespace Solutions
         /// <typeparam name="T"><code>LinkedListNode</code>의 Generic Type</typeparam>
         /// <param name="head">리스트의 시작 노드</param>
         /// <returns>순환되는 부분의 첫 노드</returns>
-        public LinkedListNode<T> Q6_FindBeginning<T>(LinkedListNode<T> head)
+        public static LinkedListNode<T> Q6_FindBeginning<T>(LinkedListNode<T> head)
         {
             var slow = head;
             var fast = head;
@@ -235,7 +235,7 @@ namespace Solutions
         /// </summary>
         /// <param name="head">리스트의 시작 노드</param>
         /// <returns>회문검사 결과</returns>
-        public bool Q7_IsPalindrome(LinkedListNode<int> head)
+        public static bool Q7_IsPalindrome(LinkedListNode<int> head)
         {
             var fast = head;
             var slow = head;

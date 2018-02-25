@@ -4,9 +4,12 @@ using System.Text;
 
 namespace Solutions.Library
 {
-    public class Line
+    public class Line : IEquatable<Line>
     {
+        public const double Epsilon = 0.0001;
+
         public double Slope { get; private set; }
+        public double InterceptX { get; private set; }
         public double InterceptY { get; private set; }
 
         public Point Start { get; private set; }
@@ -43,7 +46,7 @@ namespace Solutions.Library
             }
 
             CalcSlope();
-            CalcInterceptY();
+            CalcIntercept();
         }
 
         private void CalcSlope()
@@ -58,14 +61,16 @@ namespace Solutions.Library
             }
         }
 
-        private void CalcInterceptY()
+        private void CalcIntercept()
         {
             if (Start.X == End.X)
             {
-                InterceptY = Double.PositiveInfinity;
+                InterceptX = Start.X;
+                InterceptY = 0;
             }
             else
             {
+                InterceptX = 0;
                 InterceptY = (End.X * Start.Y - Start.X * End.Y) / (End.X - Start.X);
             }
         }
@@ -83,7 +88,7 @@ namespace Solutions.Library
                     return (Start.X == point.X);
                 }
 
-                return (point.Y == Slope * point.X + InterceptY);
+                return (point.Y == Slope * (point.X + InterceptX) + InterceptY);
             }
 
             return false;
@@ -115,6 +120,26 @@ namespace Solutions.Library
             }
 
             return new Point(x, y);            
+        }
+
+        public bool Equals(Line other)
+        {
+            if (
+                Math.Abs(Slope - other.Slope) < Epsilon &&
+                Math.Abs(InterceptX - other.InterceptX) < Epsilon &&
+                Math.Abs(InterceptY - other.InterceptY) < Epsilon
+               )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static double FloorToNearestEpsilon(double d)
+        {
+            var r = (int)(d / Epsilon);
+            return r * Epsilon;
         }
     }
 }

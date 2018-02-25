@@ -112,5 +112,47 @@ namespace Tests
             Assert.AreEqual(2, line.End.Y);
 
         }
+
+        [TestMethod]
+        public void Q7_6()
+        {
+            var points = new List<Point>()
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(1, 1),
+                new Point(1, 4),
+                new Point(2, 2),
+                new Point(2, 3),
+                new Point(3, 3),
+                new Point(3, 4),
+                new Point(4, 4),
+            };
+
+            var bestLine = Mathematics.Q6_FindBestLine(points);
+
+            /*
+            Assert.AreEqual(0, bestLine.Start.X);
+            Assert.AreEqual(0, bestLine.Start.Y);
+
+            Assert.AreEqual(4, bestLine.End.X);
+            Assert.AreEqual(4, bestLine.End.Y);
+            */
+        }
+
+        [TestMethod]
+        public void Q7_7()
+        {
+            Assert.AreEqual(1, Mathematics.Q7_GetKthMagicNumber(1));
+            Assert.AreEqual(3, Mathematics.Q7_GetKthMagicNumber(2));
+            Assert.AreEqual(5, Mathematics.Q7_GetKthMagicNumber(3));
+            Assert.AreEqual(7, Mathematics.Q7_GetKthMagicNumber(4));
+            Assert.AreEqual(9, Mathematics.Q7_GetKthMagicNumber(5));
+            Assert.AreEqual(15, Mathematics.Q7_GetKthMagicNumber(6));
+            Assert.AreEqual(21, Mathematics.Q7_GetKthMagicNumber(7));
+            Assert.AreEqual(25, Mathematics.Q7_GetKthMagicNumber(8));
+            Assert.AreEqual(27, Mathematics.Q7_GetKthMagicNumber(9));
+            Assert.AreEqual(35, Mathematics.Q7_GetKthMagicNumber(10));
+        }
     }
 }

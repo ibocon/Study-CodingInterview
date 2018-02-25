@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solutions.Library;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,19 +7,19 @@ namespace Solutions
 {
     public static class Mathematics
     {
-        #region Question 7.1
+        #region Question 7.4
 
-        public static int Minus(int number1, int number2)
+        public static int Q4_Minus(int number1, int number2)
         {
             return number1 + Negate(number2);
         }
 
-        public static int Multiply(int number1, int number2)
+        public static int Q4_Multiply(int number1, int number2)
         {
             // 덧셈을 줄여, 성능 향상
             if (number1 < number2)
             {
-                return Multiply(number2, number1);
+                return Q4_Multiply(number2, number1);
             }
 
             var sum = 0;
@@ -38,7 +39,7 @@ namespace Solutions
         }
 
         // Minus 함수를 활용하여 나눗셈을 할 수도 있다.
-        public static int Divide(int a, int b)
+        public static int Q4_Divide(int a, int b)
         {
             if (b == 0)
             {
@@ -89,6 +90,74 @@ namespace Solutions
             }
 
             return number;
+        }
+
+        #endregion
+
+        #region Question 7.5
+
+        public static Line Q5_CutTwoSquares(Square a, Square b)
+        {
+            var centerLine = new Line(a.CenterPoint, b.CenterPoint);
+
+            var lineA = a.Intersection(centerLine);
+            var lineB = b.Intersection(centerLine);
+
+            return new Line(GetStartPoint(lineA.Start, lineB.Start), GetEndPoint(lineA.End, lineB.End));
+        }
+
+        private static Point GetStartPoint(Point a, Point b)
+        {
+            if (a.X < b.X)
+            {
+                return a;
+            }
+            else if (a.X > b.X)
+            {
+                return b;
+            }
+            else
+            {
+                if (a.Y < b.Y)
+                {
+                    return a;
+                }
+                else if (a.Y > b.Y)
+                {
+                    return b;
+                }
+                else
+                {
+                    return a;
+                }
+            }
+        }
+
+        private static Point GetEndPoint(Point a, Point b)
+        {
+            if (a.X < b.X)
+            {
+                return b;
+            }
+            else if (a.X > b.X)
+            {
+                return a;
+            }
+            else
+            {
+                if (a.Y < b.Y)
+                {
+                    return b;
+                }
+                else if (a.Y > b.Y)
+                {
+                    return a;
+                }
+                else
+                {
+                    return b;
+                }
+            }
         }
 
         #endregion

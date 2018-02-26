@@ -131,13 +131,25 @@ namespace Tests
 
             var bestLine = Mathematics.Q6_FindBestLine(points);
 
-            /*
-            Assert.AreEqual(0, bestLine.Start.X);
-            Assert.AreEqual(0, bestLine.Start.Y);
+            
+            Assert.AreEqual(1, bestLine.Slope);
+            Assert.AreEqual(0, bestLine.InterceptY);
 
-            Assert.AreEqual(4, bestLine.End.X);
-            Assert.AreEqual(4, bestLine.End.Y);
-            */
+            points = new List<Point>()
+            {
+                new Point(4, 0),
+                new Point(3, 1),
+                new Point(2, 2),
+                new Point(1, 3),
+                new Point(0, 4),
+                new Point(2, 4),
+                new Point(3, 5),
+            };
+
+            bestLine = Mathematics.Q6_FindBestLine(points);
+
+            Assert.AreEqual(-1, bestLine.Slope);
+            Assert.AreEqual(4, bestLine.InterceptY);
         }
 
         [TestMethod]

@@ -174,5 +174,142 @@ namespace Solutions
         }
 
         #endregion
-    }
+
+        #region Question 8.2
+        /*
+         * 고객응대담당자, 관리자 그리고 감독관이라는 세 부류직원들로 구성된 콜 센터가 있다고 하자.
+         * 콜 센터로 오는 전화는 처음에는 무조건 상담 가능 고객응대담당자로 연결된다.
+         * 고객응대담당자가 처리할 수 없는 전화는 관리자로 연결된다.
+         * 관리자가 처리할 수 없는 전화는 다시 감독관에게 연결된다.
+         * 이 문제를 풀기 위한 자료구조를 설계하라.
+         * 응대 가능한 첫 번째 직원에게 전화를 연결시키는 dispatchCall 메서드를 구현하라.
+         */
+        
+        // 책의 해답과 달리, C#은 프레임워크 디자인 가이드라인에 따라 작성한다.
+        // https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines
+        public class CallHandler
+        {
+            // 직급은 3레벨로 나뉜다. 고객응대담당자, 관리자, 감독관
+            public enum Rank
+            {
+                Responder, Manager, Director
+            }
+
+            // 10명의 담당자와 4명의 관리자, 2명의 감독관을 만들어 초기화
+            private readonly int NumberOfResponders = 10;
+            private readonly int NumberOfManagers = 4;
+            private readonly int NumberOfDirectors = 2;
+
+            // Singleton 패턴에 따라 객체 반환
+            private static CallHandler instance;
+            public static CallHandler Instance
+            {
+                get
+                {
+                    if (instance is null)
+                    {
+                        instance = new CallHandler();
+                    }
+
+                    return instance;
+                }
+            }
+
+            // 직급별 직원 리스트
+            IDictionary<Rank, List<Employee>> Employees;
+            IDictionary<Rank, Queue<Call>> CallQueues;
+
+            protected CallHandler()
+            {
+                Employees = new Dictionary<Rank, List<Employee>>();
+                CallQueues = new Dictionary<Rank, Queue<Call>>();
+            }
+
+            // 전화 응대 가능한 첫 직원 가져오기
+            public Employee GetHandlerForCall(Call call)
+            {
+                throw new NotImplementedException();
+            }
+
+            // 응대 가능한 직원에게 전화를 연결하거나, 가능한 직원이 없으면 큐에 보관
+            public void DispatchCall(Caller caller)
+            {
+                var call = new Call(caller);
+                DispatchCall(call);
+            }
+
+            // 응대 가능한 직원에게 전화를 연결하거나, 간읗나 직원이 없으면 큐에 보관
+            public void DispatchCall(Call call)
+            {
+                // 직급이 낮은 직원에 연결 시도
+                var employee = GetHandlerForCall(call);
+                if(employee is null)
+                {
+                    employee.ReceiveCall(call);
+                }
+            }
+        }
+
+        public class Call
+        {
+            public Call(Caller caller)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public abstract class Employee
+        {
+            private Call currentCall;
+
+            // 직원이 상담중인지 아닌지를 반환
+            public bool IsFree
+            {
+                get
+                {
+                    return (currentCall is null);
+                }
+            }
+
+            public CallHandler.Rank Rank
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            // 고객 상담 시작
+            public virtual void ReceiveCall(Call call)
+            {
+                throw new NotImplementedException();
+            }
+
+            // 문제가 해결되었으므로 상담 종료
+            public virtual void CallCompleted(Call call)
+            {
+                throw new NotImplementedException();
+            }
+
+            // 문제가 해결되지 않았음. 상위 직급 직원에게 새로 걸려온 전화 배정
+            public virtual void EscalateAndReassign(Call call)
+            {
+                throw new NotImplementedException();
+            }
+
+            // 상담 중이지 않은 경우, 직원에게 새로 걸려온 전화 배정
+            public virtual bool AssignNewCall()
+            {
+                throw new NotImplementedException();
+            }
+
+        }
+
+        public abstract class Caller
+        {
+
+        }
+
+        #endregion
+    } 
 }

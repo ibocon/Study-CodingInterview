@@ -195,31 +195,23 @@ namespace Solutions
                 Responder, Manager, Director
             }
 
-            // 10명의 담당자와 4명의 관리자, 2명의 감독관을 만들어 초기화
-            private readonly int NumberOfResponders = 10;
-            private readonly int NumberOfManagers = 4;
-            private readonly int NumberOfDirectors = 2;
-
             // Singleton 패턴에 따라 객체 반환
             private static CallHandler instance;
-            public static CallHandler Instance
+            public static CallHandler GetInstance(int numberOfResponders, int numberOfManagers, int numberOfDirectors)
             {
-                get
+                if(instance is null)
                 {
-                    if (instance is null)
-                    {
-                        instance = new CallHandler();
-                    }
-
-                    return instance;
+                    instance = new CallHandler(numberOfResponders, numberOfManagers, numberOfDirectors);
                 }
+
+                return instance;
             }
 
             // 직급별 직원 리스트
             IDictionary<Rank, List<Employee>> Employees;
             IDictionary<Rank, Queue<Call>> CallQueues;
 
-            protected CallHandler()
+            protected CallHandler(int numberOfResponders, int numberOfManagers, int numberOfDirectors)
             {
                 Employees = new Dictionary<Rank, List<Employee>>();
                 CallQueues = new Dictionary<Rank, Queue<Call>>();
@@ -246,13 +238,57 @@ namespace Solutions
                 if(employee is null)
                 {
                     employee.ReceiveCall(call);
+                    call.SetHandler(employee);
                 }
+                else
+                {
+                    // 직급에 따라 대기 큐에 수신 전화를 삽입
+                    call.Reply("Please wait for free employee to reply");
+                    CallQueues[call.Rank].Enqueue(call);
+                }
+            }
+
+            // 가용한 직원 발견. 해당 직원이 처리해야 할 전화를 큐에서 탐색
+            // 새로운 전화를 배정했다면 true를 그렇지 않으면 false 반환
+            public bool AssignCall(Employee employee)
+            {
+                throw new NotImplementedException();
             }
         }
 
         public class Call
         {
+            // 전화를 처리할 수 있는 가장 낮은 직급
+            public CallHandler.Rank Rank { get; private set; }
+
+            // 전화를 거는 사람
+            private Caller caller;
+
+            // 응대 중인 직원
+            private Employee handler;
+
             public Call(Caller caller)
+            {
+                Rank = CallHandler.Rank.Responder;
+                this.caller = caller;
+            }
+
+            public void SetHandler(Employee employee)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Reply(string message)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void IcrementRank()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Disconnect()
             {
                 throw new NotImplementedException();
             }
@@ -271,13 +307,7 @@ namespace Solutions
                 }
             }
 
-            public CallHandler.Rank Rank
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public CallHandler.Rank Rank { get; protected set; }
 
             // 고객 상담 시작
             public virtual void ReceiveCall(Call call)
@@ -310,6 +340,444 @@ namespace Solutions
 
         }
 
+        class Director : Employee
+        {
+            public Director()
+            {
+                Rank = CallHandler.Rank.Director;
+            }
+        }
+
+        class Manager : Employee
+        {
+            public Manager()
+            {
+                Rank = CallHandler.Rank.Manager;
+            }
+        }
+
+        class Respondent : Employee
+        {
+            public Respondent()
+            {
+                Rank = CallHandler.Rank.Responder;
+            }
+        }
+
         #endregion
-    } 
+
+        #region Question 8.3
+        /*
+         * 객체 지향 원칙에 따라 주크박스를 설계하라. 
+         */
+
+        // 객체 지향 설계 시, 설계 관련 제약사항을 명확하게 해 두는 것이 필요하다.
+
+        /*
+         * <시스템 구성요소>
+         * Jukebox
+         * CD
+         * Song
+         * Artist
+         * Playlist
+         * Display
+         */
+
+        // 시스템 구성요소가 어떻게 객체로 설계되는지 파악해보자
+
+        public class JukeBox
+        {
+            private CDPlayer cdPlayer;
+            private User user;
+            
+        }
+
+        public class CDPlayer
+        {
+            public Playlist Playlist { get; set; }
+            public CD CD { get; set; }
+
+            #region Constructor
+            public CDPlayer(CD cd, Playlist playlist)
+            {
+                CD = cd;
+                Playlist = playlist;
+            }
+            public CDPlayer(Playlist playlist)
+            {
+                Playlist = playlist;
+            }
+            public CDPlayer(CD cd)
+            {
+                CD = cd;
+            }
+            #endregion
+
+            public void PlaySong(Song s)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class Playlist
+        {
+            private Song song;
+            private Queue<Song> queue;
+            public Playlist(Song song, Queue<Song> queue)
+            {
+                this.song = song;
+                this.queue = queue;
+            }
+
+            public Song GetNextToPlay()
+            {
+                return queue.Peek();
+            }
+
+            public void QueueUpSong(Song song)
+            {
+                queue.Enqueue(song);
+            }
+        }
+
+        public class CD
+        {
+            // id, 아티스트, 곡 목록 등의 정보 보관
+        }
+
+        public class Song
+        {
+            // id, CD (null일 수 있다), 곡명, 길이 등의 정보 보관
+        }
+
+        public class User
+        {
+            public string Name { get; set; }
+            public long ID { get; set; }
+
+            public User(string name, long id)
+            {
+                Name = name;
+                ID = id;
+            }
+
+            public static User AddUser(string name, long id)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+        #region Question 8.4
+
+
+        public class ParkingSpot
+        {
+            private Vehicle vehicle;
+            public VehicleSize SpotSize { get; }
+            public int Row { get; }
+            public int SpotNumber { get; }
+            private Level level;
+
+            public ParkingSpot(Level level, int row, int spotNumber, VehicleSize spotSize)
+            {
+                this.level = level;
+                Row = row;
+                SpotNumber = spotNumber;
+                SpotSize = spotSize;
+            }
+
+            public bool IsAvailable
+            {
+                get { return vehicle == null; }
+            }
+
+            public bool CanFitVehicle(Vehicle vehicle)
+            {
+                return IsAvailable && vehicle.CanFitInSpot(this);
+            }
+
+            public bool Park(Vehicle v)
+            {
+                if (!CanFitVehicle(v))
+                {
+                    return false;
+                }
+                vehicle = v;
+                vehicle.ParkInSpot(this);
+                return true;
+            }
+
+            /* Remove vehicle from spot, and notify level that a new spot is available */
+            public void RemoveVehicle()
+            {
+                level.SpotFreed();
+                vehicle = null;
+            }
+
+            public void Print()
+            {
+                if (vehicle == null)
+                {
+                    switch (SpotSize)
+                    {
+                        case VehicleSize.Compact:
+                            Console.Write("c");
+                            break;
+                        case VehicleSize.Large:
+                            Console.Write("l");
+                            break;
+                        case VehicleSize.Motorcycle:
+                            Console.Write("m");
+                            break;
+                    }
+                }
+                else
+                {
+                    vehicle.Print();
+                }
+            }
+        }
+
+        public class ParkingLot
+        {
+            private IList<Level> levels;
+            private int numberOfLevels;
+
+            public ParkingLot(int numberOfLevels)
+            {
+                this.numberOfLevels = numberOfLevels;
+                levels = new List<Level>();
+                for (int index = 0; index < numberOfLevels; index++)
+                {
+                    levels.Add(new Level(index, 30));
+                }
+            }
+
+            /* Park the vehicle in a spot (or multiple spots). Return false if failed. */
+            public bool ParkVehicle(Vehicle vehicle)
+            {
+                foreach (var level in levels)
+                {
+                    if (level.ParkVehicle(vehicle))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            public void Print()
+            {
+                for (int index = 0; index < levels.Count; index++)
+                {
+                    Console.Write("Level" + index + ": ");
+                    levels[index].Print();
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public enum VehicleSize
+        {
+            Motorcycle,
+            Compact,
+            Large,
+        }
+
+        public abstract class Vehicle
+        {
+            protected IList<ParkingSpot> parkingSpots;
+            protected String licensePlate;
+            public int SpotsNeeded { get; protected set; }
+            public VehicleSize Size { get; protected set; }
+
+            public void ParkInSpot(ParkingSpot spot)
+            {
+                parkingSpots = new List<ParkingSpot>
+                {
+                    spot
+                };
+            }
+
+            public void ClearSpots()
+            {
+                foreach (var parkingSpot in parkingSpots)
+                {
+                    parkingSpot.RemoveVehicle();
+                }
+                parkingSpots.Clear();
+            }
+
+            public abstract bool CanFitInSpot(ParkingSpot spot);
+            public abstract void Print();
+        }
+
+        
+
+        public class Motorcycle : Vehicle
+        {
+            public Motorcycle()
+            {
+                SpotsNeeded = 1;
+                Size = VehicleSize.Motorcycle;
+            }
+
+            public override bool CanFitInSpot(ParkingSpot spot)
+            {
+                return true;
+            }
+
+            public override void Print()
+            {
+                Console.Write("M");
+            }
+        }
+        public class Car : Vehicle
+        {
+            public Car()
+            {
+                SpotsNeeded = 1;
+                Size = VehicleSize.Compact;
+            }
+
+            public override bool CanFitInSpot(ParkingSpot spot)
+            {
+                return spot.SpotSize == VehicleSize.Large || spot.SpotSize == VehicleSize.Compact;
+            }
+
+            public override void Print()
+            {
+                Console.Write("C");
+            }
+        }
+        public class Bus : Vehicle
+        {
+            public Bus()
+            {
+                SpotsNeeded = 5;
+                Size = VehicleSize.Large;
+            }
+
+            public override bool CanFitInSpot(ParkingSpot spot)
+            {
+                return spot.SpotSize == VehicleSize.Large;
+            }
+
+            public override void Print()
+            {
+                Console.Write("B");
+            }
+        }
+
+        public class Level
+        {
+            private static readonly int SPOTS_PER_ROW = 10;
+
+            private int floor;
+            private ParkingSpot[] spots;
+            private int availableSpots;
+
+            public Level(int floor, int numberSpots)
+            {
+                this.floor = floor;
+                spots = new ParkingSpot[numberSpots];
+                int largeSpots = numberSpots / 4;
+                int bikeSpots = numberSpots / 4;
+                int compactSpots = numberSpots - largeSpots - bikeSpots;
+                for (int i = 0; i < numberSpots; i++)
+                {
+                    VehicleSize sz = VehicleSize.Motorcycle;
+                    if (i < largeSpots)
+                    {
+                        sz = VehicleSize.Large;
+                    }
+                    else if (i < largeSpots + compactSpots)
+                    {
+                        sz = VehicleSize.Compact;
+                    }
+                    int row = i / SPOTS_PER_ROW;
+                    spots[i] = new ParkingSpot(this, row, i, sz);
+                }
+                availableSpots = numberSpots;
+            }
+
+            public bool ParkVehicle(Vehicle vehicle)
+            {
+                if (availableSpots < vehicle.SpotsNeeded)
+                {
+                    return false;
+                }
+                int spotNumber = FindAvailableSpots(vehicle);
+                if (spotNumber < 0)
+                {
+                    return false;
+                }
+                return ParkStartingAtSpot(spotNumber, vehicle);
+            }
+
+            private bool ParkStartingAtSpot(int spotNumber, Vehicle vehicle)
+            {
+                vehicle.ClearSpots();
+                bool success = true;
+                for (int i = spotNumber; i < spotNumber + vehicle.SpotsNeeded; i++)
+                {
+                    success &= spots[i].Park(vehicle);
+                }
+                availableSpots -= vehicle.SpotsNeeded;
+                return success;
+            }
+
+            private int FindAvailableSpots(Vehicle vehicle)
+            {
+                int spotsNeeded = vehicle.SpotsNeeded;
+                int lastRow = -1;
+                int spotsFound = 0;
+                for (int i = 0; i < spots.Length; i++)
+                {
+                    ParkingSpot spot = spots[i];
+                    if (lastRow != spot.Row)
+                    {
+                        spotsFound = 0;
+                        lastRow = spot.Row;
+                    }
+                    if (spot.CanFitVehicle(vehicle))
+                    {
+                        spotsFound++;
+                    }
+                    else
+                    {
+                        spotsFound = 0;
+                    }
+                    if (spotsFound == spotsNeeded)
+                    {
+                        return i - (spotsNeeded - 1);
+                    }
+                }
+                return -1;
+            }
+
+            public void Print()
+            {
+                int lastRow = -1;
+                for (int i = 0; i < spots.Length; i++)
+                {
+                    ParkingSpot spot = spots[i];
+                    if (spot.Row != lastRow)
+                    {
+                        Console.Write("  ");
+                        lastRow = spot.Row;
+                    }
+                    spot.Print();
+                }
+            }
+
+            public void SpotFreed()
+            {
+                availableSpots++;
+            }
+        }
+        #endregion
+    }
 }

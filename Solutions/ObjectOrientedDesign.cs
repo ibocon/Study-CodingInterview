@@ -469,7 +469,9 @@ namespace Solutions
         #endregion
 
         #region Question 8.4
-
+        /*
+         * 객체 지향 원칙에 따라 주차장을 설계하라
+         */
 
         public class ParkingSpot
         {
@@ -492,11 +494,13 @@ namespace Solutions
                 get { return vehicle == null; }
             }
 
+            // 공간이 충분히 크고 가용한지 반환
             public bool CanFitVehicle(Vehicle vehicle)
             {
                 return IsAvailable && vehicle.CanFitInSpot(this);
             }
 
+            // 해당 공간에 차량 주차
             public bool Park(Vehicle v)
             {
                 if (!CanFitVehicle(v))
@@ -508,7 +512,7 @@ namespace Solutions
                 return true;
             }
 
-            /* Remove vehicle from spot, and notify level that a new spot is available */
+            // 해당 주차 공간에 차량 제거. 주차 공간이 속한 층에는 빈 자리가 생겼다고 통보
             public void RemoveVehicle()
             {
                 level.SpotFreed();
@@ -554,7 +558,8 @@ namespace Solutions
                 }
             }
 
-            /* Park the vehicle in a spot (or multiple spots). Return false if failed. */
+            // 차량을 특정 장소(또는 여러장소에 걸쳐)에 주차한다. 
+            // 실패하면 false를 반환한다.
             public bool ParkVehicle(Vehicle vehicle)
             {
                 foreach (var level in levels)
@@ -593,6 +598,7 @@ namespace Solutions
             public int SpotsNeeded { get; protected set; }
             public VehicleSize Size { get; protected set; }
 
+            // 주어진 주차 공간에 차량 추자 (다른 차량 사이에 주차하게 될 수 있음)
             public void ParkInSpot(ParkingSpot spot)
             {
                 parkingSpots = new List<ParkingSpot>
@@ -601,6 +607,7 @@ namespace Solutions
                 };
             }
 
+            // 출차. 해당 주차 공간에는 차량이 출차되었음을 통보
             public void ClearSpots()
             {
                 foreach (var parkingSpot in parkingSpots)
@@ -610,11 +617,11 @@ namespace Solutions
                 parkingSpots.Clear();
             }
 
+            // 주차 공간이 주차하려는 차량을 수용할 수 있으며, 비어 있는지 확인.
+            // 크기만 비교하며, 주차 장소가 충분히 있는지는 확인하지 않음
             public abstract bool CanFitInSpot(ParkingSpot spot);
             public abstract void Print();
         }
-
-        
 
         public class Motorcycle : Vehicle
         {
@@ -642,6 +649,7 @@ namespace Solutions
                 Size = VehicleSize.Compact;
             }
 
+            // 주차 공간이 소형인지 대형인지 확인
             public override bool CanFitInSpot(ParkingSpot spot)
             {
                 return spot.SpotSize == VehicleSize.Large || spot.SpotSize == VehicleSize.Compact;
@@ -660,6 +668,7 @@ namespace Solutions
                 Size = VehicleSize.Large;
             }
 
+            // 주차 공간이 큰지 확인. 주차 공간 수는 검사하지 않음
             public override bool CanFitInSpot(ParkingSpot spot)
             {
                 return spot.SpotSize == VehicleSize.Large;
@@ -671,6 +680,7 @@ namespace Solutions
             }
         }
 
+        // 주차장 내의 한 층을 표현
         public class Level
         {
             private static readonly int SPOTS_PER_ROW = 10;
@@ -703,6 +713,7 @@ namespace Solutions
                 availableSpots = numberSpots;
             }
 
+            // 주어진 차량을 주차할 장소를 찾는다. 실패하면 false 반환
             public bool ParkVehicle(Vehicle vehicle)
             {
                 if (availableSpots < vehicle.SpotsNeeded)
@@ -717,6 +728,7 @@ namespace Solutions
                 return ParkStartingAtSpot(spotNumber, vehicle);
             }
 
+            // 차량을 SpotNumber가 가리키는 장소부터 vehicle.SpotsNeeded 만큼의 빈 자리에 주차시킨다.
             private bool ParkStartingAtSpot(int spotNumber, Vehicle vehicle)
             {
                 vehicle.ClearSpots();
@@ -729,6 +741,8 @@ namespace Solutions
                 return success;
             }
 
+            // 이 차랑을 주차할 장소를 찾는다. 빈 자리를 가리키는 Index를 반환한다.
+            // 실패하면 -1을 반환한다.
             private int FindAvailableSpots(Vehicle vehicle)
             {
                 int spotsNeeded = vehicle.SpotsNeeded;
@@ -773,6 +787,7 @@ namespace Solutions
                 }
             }
 
+            // 한 차량이 출자하면, 가용한 주차장소의 수를 증가시킨다.
             public void SpotFreed()
             {
                 availableSpots++;

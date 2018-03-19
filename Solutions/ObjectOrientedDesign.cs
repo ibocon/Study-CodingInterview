@@ -388,7 +388,7 @@ namespace Solutions
         public class JukeBox
         {
             private CDPlayer cdPlayer;
-            private User user;
+            private UserQ3 user;
             
         }
 
@@ -450,18 +450,18 @@ namespace Solutions
             // id, CD (null일 수 있다), 곡명, 길이 등의 정보 보관
         }
 
-        public class User
+        public class UserQ3
         {
             public string Name { get; set; }
             public long ID { get; set; }
 
-            public User(string name, long id)
+            public UserQ3(string name, long id)
             {
                 Name = name;
                 ID = id;
             }
 
-            public static User AddUser(string name, long id)
+            public static UserQ3 AddUser(string name, long id)
             {
                 throw new NotImplementedException();
             }
@@ -793,6 +793,243 @@ namespace Solutions
                 availableSpots++;
             }
         }
+        #endregion
+
+        #region Question 8.5
+        /*
+         * 온라인 북 리더에 대한 자료구조를 설계하라.
+         */ 
+
+        /*
+         * 다음 기능을 제공하는 기본적인 온라인 북 리더를 설계한다고 가정
+         * 
+         * 1 사용자 가입 정보 생성 및 확장
+         * 2 서적 데이터베이스 검색
+         * 3 책 읽기
+         * 4 한 번에 한 명의 사용자만 활성화 상태
+         * 5 활성화 된 사용자가 읽는 한 권의 책만 활성화 상태
+         */
+
+        // 작은 시스템이라 하더라도, 역할을 잘 분배하여 클래스를 나누어 두면
+        // 시스템이 성장할 때 주 클래스가 엄청나게 비대해지는 것을 막을 수 있다.
+        
+        public class OnlineReaderSystem
+        {
+            public Library Library { get; private set; }
+            public UserManager UserManager { get; private set; }
+            public Display Display { get; private set; }
+
+            private Book activeBook;
+            public Book ActiveBook
+            {
+                get
+                {
+                    return activeBook;
+                }
+                set
+                {
+                    activeBook = value;
+                    Display.DisplayBook(value);
+                }
+            }
+
+            private UserQ5 activeUser;
+            public UserQ5 ActiveUser
+            {
+                get
+                {
+                    return activeUser;
+                }
+                set
+                {
+                    activeUser = value;
+                    Display.DisplayUser(value);
+                }
+            }
+
+            public OnlineReaderSystem()
+            {
+                UserManager = new UserManager();
+                Library = new Library();
+                Display = new Display();
+            }
+
+
+        }
+
+        public class Library
+        {
+            private IDictionary<int, Book> books;
+
+            public Book AddBook(int id, string details)
+            {
+                if (books.ContainsKey(id))
+                {
+                    return null;
+                }
+
+                var book = new Book(id, details);
+                if(books.TryAdd(id, book))
+                {
+                    return book;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            public bool Remove(Book book)
+            {
+                return books.Remove(book.Id);
+            }
+
+            public bool Remove(int id)
+            {
+                if (books.ContainsKey(id))
+                {
+                    return books.Remove(id);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public Book Find(int id)
+            {
+                if (books.ContainsKey(id))
+                {
+                    return books[id];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public class UserManager
+        {
+            private IDictionary<int, UserQ5> users;
+
+            public UserQ5 AddUser(int id, string details, int accountType)
+            {
+                if (users.ContainsKey(id))
+                {
+                    return null;
+                }
+
+                var user = new UserQ5(id, details, accountType);
+                if (users.TryAdd(id, user))
+                {
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            public bool Remove(UserQ5 user)
+            {
+                return users.Remove(user.Id);
+            }
+
+            public bool Remove(int id)
+            {
+                if (users.ContainsKey(id))
+                {
+                    return users.Remove(id);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public UserQ5 Find(int id)
+            {
+                if (users.ContainsKey(id))
+                {
+                    return users[id];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public class Display
+        {
+            private Book activeBook;
+            private UserQ5 activeUser;
+            private int pageNumber = 0;
+
+            public void TurnPageForward()
+            {
+                pageNumber++;
+                RefreshPage();
+            }
+
+            public void TurnPageBackward()
+            {
+                pageNumber--;
+                RefreshPage();
+            }
+
+            public void DisplayBook(Book book)
+            {
+                pageNumber = 0;
+                activeBook = book;
+
+                RefreshTitle();
+                RefreshDetails();
+                RefreshPage();
+            }
+
+            public void DisplayUser(UserQ5 user)
+            {
+                activeUser = user;
+                RefreshUsername();
+            }
+
+            public void RefreshUsername() { /* 화면에 표시되는 username 갱신 */ }
+            public void RefreshTitle() { /* 화면에 표시되는 title 갱신 */ }
+            public void RefreshDetails() { /* 화면에 표시되는 details 갱신 */ }
+            public void RefreshPage() { /* 화면에 표시되는 page 갱신 */ }
+
+        }
+
+        public class Book
+        {
+            public int Id { get; set; }
+            public string Details { get; set; }
+
+            public Book(int id, string details)
+            {
+                Id = id;
+                Details = details;
+            }
+        }
+
+        public class UserQ5
+        {
+            public int Id { get; set; }
+            public string Details { get; set; }
+            public int AccountType { get; set; }
+
+            public void RenewMemberShip() { }
+
+            public UserQ5(int id, string details, int accountType)
+            {
+                Id = id;
+                Details = details;
+                AccountType = accountType;
+            }
+        }
+
         #endregion
     }
 }

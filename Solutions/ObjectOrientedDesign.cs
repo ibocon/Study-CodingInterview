@@ -853,8 +853,6 @@ namespace Solutions
                 Library = new Library();
                 Display = new Display();
             }
-
-
         }
 
         public class Library
@@ -1030,6 +1028,23 @@ namespace Solutions
             }
         }
 
+        #endregion
+
+        #region Question 8.6
+        /*
+         * 직소 퍼즐을 구현하라. 자료구조를 설계하고, 퍼즐을 푸는 알고리즘을 설명하라.
+         * 주어진 두 개의 조각이 들어맞는지를 판별하는 fitsWith 메서드가 주어진다고 가정하도록 하라.
+         */
+
+        /*
+         * 절대 위치: 절대 위치는 Piece 클래스에 저장되어야 한다.
+         * 상대 위치: 상대 위치는 Edge 클래스 내부에 기록되어야 한다.
+         */
+
+        // 여기서는 상대 위치를 사용하여 문제를 푼도록 할 것이다. 
+        // 인접한 면에 면을 연결하여 상대 위치를 표현.
+
+        
         #endregion
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 namespace Solutions
 {
     // 객체를 설계하는 방법은 정말 다양하고 개발자마다 다른 특색을 나타낸다.
-    // 따라서 책 해답을 C# 코드로 전환하고 테
+    // 따라서 책 해답을 C# 코드로 전환하고 테스트했다.
     public static class ObjectOrientedDesign
     {
         #region Question 8.1
@@ -1044,7 +1044,218 @@ namespace Solutions
         // 여기서는 상대 위치를 사용하여 문제를 푼도록 할 것이다. 
         // 인접한 면에 면을 연결하여 상대 위치를 표현.
 
-        
+
+        #endregion
+
+        #region Question 8.7
+        /*
+         * 채팅 서버를 어떻게 구현할 것인지 설명하라.
+         * 서버를 뒷받침할 다양한 컴포넌트, 클래스, 메서드에 대해 설명하도록 하라.
+         * 어떤 문제가 가장 풀기 어려울 것으로 예상되는가?
+         * 
+         */
+
+        /*
+         * 아래 순서대로 채팅 서버를 구현해 나갈 것이다.
+         * 
+         * 1. 사용자 입장에서 채팅 서버를 활용하는 시나리오를 작성한다.
+         * 2. 사용자 시나리오를 구현하기 위해 필요한 기능들을 추려낸다.
+         * 3. 추려낸 기능들을 구현하기 위한 기술을 검토한다.
+         * 4. 검토한 기술을 바탕으로 핵심 컴포넌트 간에 상호작용을 그려본다.
+         * 5. 각 핵심 컴포넌트에 들어갈 메서드를 정의한다.
+         * 6. 메서드에서 기대되는 결과를 바탕으로 테스트를 작성한다.
+         * 7. 핵심 컴포넌트를 하나씩 구현하며 테스트 결과를 확인한다.
+         * 8. 핵심 컴포넌트를 연결하여 사용자 시나리오대로 동작하는지 확인한다.
+         * 
+         * 서버를 뒷받침할 컴포넌트, 클래스, 메서드는 아래 코드를 확인하길 바란다.
+         * 
+         * 가장 풀기 어려울 것으로 예상되는 문제는 '서버의 유지보수'다.
+         * 데이터베이스를 확장하거나 축소할 때 기존 사용자나 기존 채팅 내역을 유지하는 것.
+         * 서버에 문제가 생겼을 때를 대비하여 백업하거나 백업 서버를 즉시 준비하는 것.
+         * 급격한 사용자 증가 및 축소에 대응할 수 있도록 클라우드 서버를 유연하게 운영하는 것.
+         * 기능의 추가나 삭제로 사용자의 행동이 변화하면 이를 파악하고 적절히 대응하는 것.
+         * 
+         */
+
+        /// <summary>
+        /// 채팅 서버
+        /// </summary>
+        public static class ChatServer
+        {
+            public static ChatDbContext ChatContext;
+            public static ChatUserController ChatUserController;
+            public static ChatRoomController ChatRoomController;
+            public static bool Running = true;
+
+            public static void Run(string[] args)
+            {
+                ChatContext = new ChatDbContext("db://localhost:3306");
+                ChatUserController = new ChatUserController(ChatContext.ChatUsers);
+                ChatRoomController = new ChatRoomController(ChatContext.ChatRooms);
+                
+                while (Running)
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public static void Stop()
+            {
+                Running = false;
+            }
+        }
+
+        /// <summary>
+        /// Repository 패턴 기반으로 데이터베이스와 상호작용을 담당
+        /// 데이터베이스와 연결 및 Repository 생성
+        /// </summary>
+        public class ChatDbContext
+        {
+            public ChatUserRepository ChatUsers { get; }
+            public ChatRoomRepository ChatRooms { get; }
+
+            public ChatDbContext(string dbConnection)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// 기본적인 Repository 기능 정의하는 인터페이스
+        /// </summary>
+        /// <typeparam name="T">테이블에 기록되는 데이터 타입</typeparam>
+        public abstract class Repository<T> 
+        {
+            public virtual IList<T> ReadAll() { throw new NotImplementedException(); }
+            public virtual T Create(T model) { throw new NotImplementedException(); }
+            public virtual T ReadById(int id) { throw new NotImplementedException(); }
+            public virtual T Update(T model) { throw new NotImplementedException(); }
+            public virtual T Delete(T model) { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// ChatRoom 테이블과 상호작용하는 Repository
+        /// </summary>
+        public class ChatRoomRepository : Repository<ChatRoom>
+        {
+            public IList<ChatRoom> ReadAllByUser(int userId) { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// ChatUser 테이블과 상호작용하는 Repository
+        /// </summary>
+        public class ChatUserRepository : Repository<ChatUser>
+        {
+
+        }
+
+        /// <summary>
+        /// ChatUser 관리하는 Controller
+        /// Repository와 상호작용하여 데이터 관리
+        /// Chatuser 간에 상호작용 관리
+        /// </summary>
+        public class ChatUserController 
+        {
+            private ChatUserRepository repository;
+            public ChatUserController(ChatUserRepository chatRoomRepository)
+            {
+                repository = chatRoomRepository;
+            }
+
+            public void AddChatUser(ChatUser chatUser)
+            {
+                repository.Create(chatUser);
+            }
+
+            public void RemoveChatuser(ChatUser chatUser) { throw new NotImplementedException(); }
+
+        }
+
+        /// <summary>
+        /// 채팅 서버 사용자 모델
+        /// </summary>
+        public class ChatUser 
+        {
+            public int Id { get; private set; }
+            public string Name { get; private set; }
+
+            private IList<ChatRoom> JoinedChat;
+
+            public ChatUser(int userId, string name)
+            {
+                Id = userId;
+                Name = name;
+            }
+
+            public void SendMessage(int chatId, Message message)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// 채팅방을 관리하는 Controller
+        /// </summary>
+        public class ChatRoomController 
+        {
+            private ChatRoomRepository repository;
+            public ChatRoomController(ChatRoomRepository chatRoomRepository)
+            {
+                repository = chatRoomRepository;
+            }
+
+            public IList<ChatRoom> GetUserJoinedChat(int userId)
+            {
+                return repository.ReadAllByUser(userId);
+            }
+
+            public void JoinChatRoom(ChatRoom chatRoom, ChatUser user) { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// 채팅 서버 채팅방 모델
+        /// </summary>
+        public abstract class ChatRoom 
+        {
+            private IList<Message> messages;
+
+            public void RecordMessage(Message message)
+            {
+                messages.Add(message);
+            }
+
+            protected abstract void NotifyNewMessage();
+        }
+
+        /// <summary>
+        /// 1대1 채팅방 모델
+        /// </summary>
+        public class PrivateChatRoom : ChatRoom 
+        {
+            private ChatUser userA;
+            private ChatUser userB;
+
+            protected override void NotifyNewMessage() { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// 그룹 채팅방 모델
+        /// </summary>
+        public class GroupChatRoom : ChatRoom 
+        {
+            private IList<ChatUser> users;
+
+            protected override void NotifyNewMessage() { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// 채팅 메세지 모델
+        /// </summary>
+        public class Message 
+        {
+            private ChatUser fromUser;
+            private string message;
+        }
         #endregion
     }
 }

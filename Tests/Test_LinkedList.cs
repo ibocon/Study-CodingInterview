@@ -184,6 +184,7 @@ namespace Tests
 
             Assert.IsNotNull(loop);
         }
+
         [TestMethod]
         public void Q2_7()
         {
